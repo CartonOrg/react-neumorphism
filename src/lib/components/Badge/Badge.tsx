@@ -3,12 +3,12 @@ import { Sizes } from "../../constants";
 import { BADGE_STYLES } from "./badge.styles";
 import Typography from "../Typography/Typography";
 
-interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
+type BadgeProps = {
   inset?: boolean;
   theme: Theme;
   size?: Sizes;
   children: React.ReactNode;
-}
+} & Partial<React.HTMLAttributes<HTMLDivElement>>;
 
 const Badge: React.FC<BadgeProps> = ({
   theme,

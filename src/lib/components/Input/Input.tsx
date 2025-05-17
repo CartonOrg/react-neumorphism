@@ -5,7 +5,7 @@ import { IconStyle } from "../../types/icon";
 import { getIconDisplay } from "../../utils/icon";
 import Typography from "../Typography/Typography";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+type InputProps = {
   theme: Theme;
   label?: string;
   inputSize?: Sizes;
@@ -13,7 +13,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   iconRight?: React.ReactNode;
   iconStyle?: IconStyle;
   disabled?: boolean;
-}
+} & Partial<React.InputHTMLAttributes<HTMLInputElement>>;
 
 const Input: React.FC<InputProps> = ({
   theme,

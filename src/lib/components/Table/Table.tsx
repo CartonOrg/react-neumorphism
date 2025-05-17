@@ -7,7 +7,7 @@ import {
 } from "./table.styles";
 import { Sizes } from "../../constants";
 import { Typography } from "..";
-interface TableProps<T> extends React.HTMLAttributes<HTMLTableElement> {
+type TableProps<T> = {
   inset?: boolean;
   size?: Sizes;
   theme: Theme;
@@ -16,7 +16,7 @@ interface TableProps<T> extends React.HTMLAttributes<HTMLTableElement> {
   templates?: Partial<
     Record<keyof T, (row: T, rowIdx: number, colIdx: number) => React.ReactNode>
   >;
-}
+} & Partial<React.HTMLAttributes<HTMLTableElement>>;
 
 const Table = <T,>({
   size = "sm",

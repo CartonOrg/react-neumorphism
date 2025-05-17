@@ -4,15 +4,14 @@ import { Sizes, spacings } from "../../constants";
 import { TEXTAREA_STYLES } from "./textArea.styles";
 import Typography from "../Typography/Typography";
 
-interface TextAreaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+type TextAreaProps = {
   theme: Theme;
   label?: string;
   textAreaSize?: Sizes;
   enableDynamicHeight?: boolean;
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-}
+} & Partial<React.TextareaHTMLAttributes<HTMLTextAreaElement>>;
 
 const TextArea: React.FC<TextAreaProps> = ({
   theme,

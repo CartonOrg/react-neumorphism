@@ -5,7 +5,7 @@ import { BUTTON_STYLES } from "./button.styles";
 import SpinnerIcon from "../../icons/SpinnerIcon";
 import Typography from "../Typography/Typography";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+type ButtonProps = {
   size?: Sizes;
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
@@ -14,7 +14,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   border?: boolean;
   children?: React.ReactNode;
   theme: Theme;
-}
+} & Partial<React.ButtonHTMLAttributes<HTMLButtonElement>>;
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (

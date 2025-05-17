@@ -3,11 +3,11 @@ import { Sizes } from "../../constants";
 import { CHECKBOX_STYLE } from "./checkbox.styles";
 import Typography from "../Typography/Typography";
 
-interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
+type CheckboxProps = {
   label: string;
   inputSize?: Sizes;
   theme: Theme;
-}
+} & Partial<React.InputHTMLAttributes<HTMLInputElement>>;
 
 const Checkbox: React.FC<CheckboxProps> = ({
   id,

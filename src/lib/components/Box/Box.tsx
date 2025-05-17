@@ -2,12 +2,13 @@ import { css, Theme, withTheme } from "@emotion/react";
 import { Sizes } from "../../constants";
 import { BOX_STYLES } from "./box.styles";
 
-interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
+type BoxProps = {
   inset?: boolean;
   size?: Sizes;
   theme: Theme;
   children?: React.ReactNode;
-}
+} & Partial<React.HTMLAttributes<HTMLDivElement>>;
+
 const Box: React.FC<BoxProps> = ({
   theme,
   inset = true,

@@ -3,11 +3,11 @@ import { Sizes } from "../../constants";
 import { RADIO_STYLE } from "./radio.styles";
 import Typography from "../Typography/Typography";
 
-interface RadioProps extends React.InputHTMLAttributes<HTMLInputElement> {
+type RadioProps = {
   label: string;
   inputSize?: Sizes;
   theme: Theme;
-}
+} & Partial<React.InputHTMLAttributes<HTMLInputElement>>;
 
 const Radio: React.FC<RadioProps> = ({
   id,

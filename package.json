@@ -1,7 +1,7 @@
 {
   "name": "@carton-org/react-neumorphism",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "A React component library implementing the neumorphism design style",
   "author": "Carton",
   "license": "MIT",
@@ -39,7 +39,7 @@
     "build": "tsc -b tsconfig.lib.json && vite build",
     "lint": "ESLINT_USE_FLAT_CONFIG=true eslint . --fix",
     "preview": "vite preview",
-    "prepublishOnly": "npm run build"
+    "publish": "pnpm run build && pnpm publish --no-git-checks"
   },
   "dependencies": {},
   "peerDependencies": {
