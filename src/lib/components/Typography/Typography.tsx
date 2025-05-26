@@ -1,4 +1,4 @@
-import { Theme, withTheme } from "@emotion/react";
+import { css, Theme, withTheme } from "@emotion/react";
 import { defaultStyle } from "./typography.styles";
 import { sizes, Sizes } from "../../constants";
 
@@ -52,13 +52,18 @@ const Typography: React.FC<TypographyProps> = ({
   if (paragraph) {
     return (
       <p
-        css={defaultStyle({
-          theme,
-          size: currentSize,
-          bold,
-          italic,
-          underline,
-        })}
+        css={[
+          defaultStyle({
+            theme,
+            size: currentSize,
+            bold,
+            italic,
+            underline,
+          }),
+          css({
+            margin: 0,
+          }),
+        ]}
       >
         {children}
       </p>

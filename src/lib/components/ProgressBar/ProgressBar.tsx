@@ -22,13 +22,8 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   showLabel = true,
   insetLabel = false,
 }) => {
-  const {
-    borderRadius,
-    border,
-    shadow,
-    background,
-    filledBackgroundColorLight,
-  } = theme;
+  const { borderRadius, border, shadow, background, activeBackgroundColor } =
+    theme;
   const progressBarStyle = PROGRESS_BAR_STYLES[size];
 
   const defaultLabel = (
@@ -96,7 +91,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
             left: 0,
             height: "100%",
             maxWidth: "100%",
-            background: filledBackgroundColorLight,
+            background: activeBackgroundColor,
           })}
         />
       </div>

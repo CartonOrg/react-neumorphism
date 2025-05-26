@@ -16,17 +16,17 @@ interface ToastProps {
   theme: Theme;
   customStyle?: SerializedStyles;
 }
-const getIcon = (type: ToastType["type"]) => {
+const getIcon = (type: ToastType["type"], theme: Theme) => {
   switch (type) {
     default:
     case "info":
-      return <InfoSquareIcon />;
+      return <InfoSquareIcon color={theme.fontColor} />;
     case "success":
-      return <CheckSquareIcon />;
+      return <CheckSquareIcon color={theme.fontColor} />;
     case "error":
-      return <CrossSquareIcon />;
+      return <CrossSquareIcon color={theme.fontColor} />;
     case "warning":
-      return <AlertSquareIcon />;
+      return <AlertSquareIcon color={theme.fontColor} />;
   }
 };
 const Toast: React.FC<ToastProps> = ({
@@ -36,7 +36,7 @@ const Toast: React.FC<ToastProps> = ({
   customStyle,
 }) => {
   const { background, borderRadius, shadow, border } = theme;
-  const icon = getIcon(toast.type);
+  const icon = getIcon(toast.type, theme);
 
   return (
     <div
@@ -45,7 +45,7 @@ const Toast: React.FC<ToastProps> = ({
           background,
           borderRadius,
           boxShadow: shadow,
-          border: toast.bordered ? border : "none",
+          border: toast.bordered === true ? border : "none",
           padding: `${spacings.sm} ${spacings.md}`,
           display: "flex",
           gap: spacings.xl,
@@ -83,7 +83,7 @@ const Toast: React.FC<ToastProps> = ({
       {toast.isClosable === true && (
         <Button
           onClick={() => removeToast(toast.id)}
-          iconLeft={<CrossIcon />}
+          iconLeft={<CrossIcon color={theme.fontColor} />}
           size={"xs"}
         />
       )}

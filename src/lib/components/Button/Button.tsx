@@ -57,6 +57,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           borderRadius: rounded ? "50px" : borderRadius,
           background,
           boxShadow: shadow,
+          width: "fit-content",
           cursor: "pointer",
           display: "inline-flex",
           alignItems: "center",
@@ -83,7 +84,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...rest}
       >
         {iconLeft}
-        <Typography size={size}>{children}</Typography>
+        {hasOnlyIcon ? null : <Typography size={size}>{children}</Typography>}
         {isLoading ? (
           <SpinnerIcon color={fontColor} />
         ) : iconRight !== undefined ? (

@@ -1,51 +1,41 @@
-export interface NeumorphismAttributes {
+export type DefaultModeTheme = "dark" | "light";
+export interface NeumorphismConfig {
   distance?: string;
   blur?: string;
+}
+
+export interface ColorsConfig {
+  backgroundColor?: string;
+  lightShadow?: string;
+  darkShadow?: string;
+  activeBackgroundColor?: string;
+  hoverBackgroundColor?: string;
+}
+
+export interface BorderConfig {
+  borderColor?: string;
   borderRadius?: string;
+  borderWidth?: string;
+  borderStyle?: string;
 }
 
-export interface NeumorphismColorTheme {
-  backgroundColor: string;
-  fontColor: string;
-  borderColor: string;
-  lightShadow: string;
-  darkShadow: string;
-  filledBackgroundColorDark: string;
-  filledBackgroundColorLight: string;
-  hoverBackgroundColor: string;
+export interface TypographyConfig {
+  fontFamily?: string;
+  fontColor?: string;
 }
 
-export interface NeumorphismTheme {
-  dark: NeumorphismColorTheme;
-  light: NeumorphismColorTheme;
-  fontFamily: string;
-}
-
-export interface NeumorphismComponentTheme {
+export interface ReactNeumorphismAugmentedTheme
+  extends NeumorphismConfig,
+    ColorsConfig,
+    TypographyConfig,
+    BorderConfig {
   background: string;
-  fontColor: string;
-  fontFamily: string;
-  border: string;
-  borderRadius: string;
+  hoverBackground: string;
   shadow: string;
   shadowInset: string;
-  hoverBackground: string;
-  filledBackgroundColorLight: string;
-  filledBackgroundColorDark: string;
-  backgroundColor: string;
-  borderColor: string;
-  lightShadow: string;
-  darkShadow: string;
-  hoverBackgroundColor: string;
-}
-
-export interface ThemeProviderProps {
-  children: React.ReactNode;
-  mode?: "dark" | "light";
-  neumorphismConfig?: NeumorphismAttributes;
-  customTheme?: NeumorphismTheme;
+  border: string;
 }
 
 declare module "@emotion/react" {
-  export interface Theme extends NeumorphismComponentTheme {}
+  export interface Theme extends ReactNeumorphismAugmentedTheme {}
 }

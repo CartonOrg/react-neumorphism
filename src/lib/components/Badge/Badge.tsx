@@ -23,12 +23,13 @@ const Badge: React.FC<BadgeProps> = ({
   return (
     <div
       css={css({
+        ...currentBadgeStyles,
         background,
         borderRadius,
         border,
         height: "fit-content",
+        width: "fit-content",
         boxShadow: inset ? shadowInset : shadow,
-        ...currentBadgeStyles,
       })}
       {...rest}
     >

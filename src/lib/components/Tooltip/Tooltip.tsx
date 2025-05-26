@@ -60,6 +60,7 @@ const Tooltip: React.FC<TooltipProps> = ({
   return (
     <div
       ref={wrapper}
+      css={css({ width: "fit-content" })}
       onMouseOver={() => setDisplay(true)}
       onFocus={() => setDisplay(true)}
       onMouseLeave={() => setDisplay(false)}

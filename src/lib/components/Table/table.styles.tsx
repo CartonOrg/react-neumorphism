@@ -27,7 +27,7 @@ export const tableStyle = (
 ): SerializedStyles =>
   css({
     position: "relative",
-    width: "100%",
+    width: "fit-content",
     background: "unset",
     borderCollapse: "collapse",
     borderSpacing: 0,

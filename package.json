@@ -1,7 +1,7 @@
 {
   "name": "@carton-org/react-neumorphism",
   "private": false,
-  "version": "1.0.4",
+  "version": "1.0.7",
   "description": "A React component library implementing the neumorphism design style",
   "author": "Carton",
   "license": "MIT",

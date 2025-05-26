@@ -3,32 +3,15 @@ import {
   ThemeProvider as EmotionThemeProvider,
   Global,
 } from "@emotion/react";
-import { NeumorphismAttributes, NeumorphismTheme } from "../types/theme";
-import { spacings } from "../constants";
-
-const defaultThemes: NeumorphismTheme = {
-  dark: {
-    backgroundColor: "#25272b",
-    fontColor: "#ffffff",
-    borderColor: "#353535",
-    lightShadow: "#34373c",
-    darkShadow: "#16171a",
-    filledBackgroundColorDark: "#9966cf",
-    filledBackgroundColorLight: "#fff571",
-    hoverBackgroundColor: "#0c0c0c",
-  },
-  light: {
-    backgroundColor: "#f2f2f2",
-    fontColor: "#25272b",
-    borderColor: "#d6d6d6",
-    lightShadow: "#ffffff",
-    darkShadow: "#d0d0d0",
-    filledBackgroundColorDark: "#9966cf",
-    filledBackgroundColorLight: "#fff571",
-    hoverBackgroundColor: "#ffffff",
-  },
-  fontFamily: "Inter, sans-serif",
-};
+import {
+  BorderConfig,
+  ColorsConfig,
+  DefaultModeTheme,
+  NeumorphismConfig,
+  ReactNeumorphismAugmentedTheme,
+  TypographyConfig,
+} from "../types/theme";
+import { buildAugmentedTheme } from "../utils";
 
 const resetStyles = css({
   "*": {
@@ -38,54 +21,51 @@ const resetStyles = css({
   },
 });
 
-export const ThemeProvider = ({
-  children,
-  customTheme,
-  mode = "dark",
-  neumorphismConfig = {
-    distance: "5px",
-    blur: "10px",
-    borderRadius: spacings.sm,
-  },
-}: {
-  children: React.ReactNode;
-  mode: "dark" | "light";
-  neumorphismConfig?: NeumorphismAttributes;
-  customTheme?: NeumorphismTheme;
-}): React.ReactNode => {
-  const currentColorTheme = customTheme?.[mode] ?? defaultThemes[mode];
+const globalOverridesStyles = (
+  buildedAugmentedTheme: ReactNeumorphismAugmentedTheme,
+) =>
+  css({
+    ".react-neumorphism-theme": {
+      fontFamily: buildedAugmentedTheme.fontFamily,
+      background: buildedAugmentedTheme.background,
+      color: buildedAugmentedTheme.fontColor,
+      "svg > *": {
+        stroke: buildedAugmentedTheme.fontColor,
+      },
+    },
+  });
 
-  const { distance, blur, borderRadius } = neumorphismConfig;
+interface ThemeProviderProps {
+  mode: DefaultModeTheme;
+  neumorphismConfig?: NeumorphismConfig;
+  colorsConfig?: ColorsConfig;
+  typographyConfig?: TypographyConfig;
+  borderConfig?: BorderConfig;
+  children: React.ReactNode;
+}
+
+export const ThemeProvider = ({
+  mode = "light",
+  neumorphismConfig,
+  borderConfig,
+  colorsConfig,
+  typographyConfig,
+  children,
+}: ThemeProviderProps): React.ReactNode => {
+  const buildedAugmentedTheme = buildAugmentedTheme(
+    mode,
+    neumorphismConfig,
+    colorsConfig,
+    typographyConfig,
+    borderConfig,
+  );
 
   return (
-    <EmotionThemeProvider
-      theme={{
-        ...currentColorTheme,
-        borderRadius,
-        fontFamily: customTheme?.fontFamily ?? defaultThemes.fontFamily,
-        border: `1px solid ${currentColorTheme.borderColor}`,
-        background: `linear-gradient(145deg, ${currentColorTheme.backgroundColor}, ${currentColorTheme.backgroundColor})`,
-        hoverBackground: `linear-gradient(145deg, ${currentColorTheme.hoverBackgroundColor}, ${currentColorTheme.hoverBackgroundColor})`,
-        shadow: `${distance} ${distance} ${blur} ${currentColorTheme.darkShadow},  -${distance} -${distance} ${blur} ${currentColorTheme.lightShadow}`,
-        shadowInset: `inset ${distance} ${distance} ${blur} ${currentColorTheme.darkShadow},  inset -${distance} -${distance} ${blur} ${currentColorTheme.lightShadow}`,
-      }}
-    >
+    <EmotionThemeProvider theme={buildedAugmentedTheme}>
       <Global
-        styles={[
-          resetStyles,
-          css({
-            "*": {
-              fontFamily: customTheme?.fontFamily ?? defaultThemes.fontFamily,
-              background: `linear-gradient(145deg, ${currentColorTheme.backgroundColor}, ${currentColorTheme.backgroundColor})`,
-              color: currentColorTheme.fontColor,
-              "svg > *": {
-                stroke: currentColorTheme.fontColor,
-              },
-            },
-          }),
-        ]}
+        styles={[resetStyles, globalOverridesStyles(buildedAugmentedTheme)]}
       />
-      {children}
+      <div className="react-neumorphism-theme">{children}</div>
     </EmotionThemeProvider>
   );
 };

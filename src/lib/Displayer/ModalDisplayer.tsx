@@ -18,7 +18,12 @@ export const ModalDisplayer = (): React.ReactNode => {
       <ComponentDisplayer.Title>Modal</ComponentDisplayer.Title>
       <ComponentDisplayer.Content>
         <Button onClick={openModal}>Open Modal</Button>
-        <Modal isOpen={isOpen} onClose={closeModal} title="Modal">
+        <Modal
+          isOpen={isOpen}
+          onClose={closeModal}
+          title="Modal"
+          headerSize="sm"
+        >
           <div></div>
         </Modal>
       </ComponentDisplayer.Content>

@@ -15,6 +15,7 @@ import {
   TOP_LEFT,
   TOP_RIGHT,
 } from "../types";
+import { Sizes } from "../constants";
 
 interface ToastsContextType {
   createToast: (toast: Toast, config?: ToastConfig) => void;
@@ -58,43 +59,50 @@ export const ToastsProvider = ({
       toast: Toast = {
         type: "info",
       },
-      config: ToastConfig = {
+      config?: ToastConfig,
+    ) => {
+      const defaultConfig = {
         duration: DEFAULT_DURATION,
-        position: BOTTOM_RIGHT,
-        size: "md",
+        position: BOTTOM_RIGHT as ScreenPosition,
+        size: "md" as Sizes,
         isClosable: false,
         bordered: false,
-      },
-    ) => {
+      };
+
+      const mergedConfig = {
+        ...defaultConfig,
+        ...config,
+      };
+
       const enrichedToast: ExtendedToast = {
         ...toast,
-        ...config,
+        ...mergedConfig,
         id: crypto.randomUUID(),
       };
 
-      const isInfinite = config.duration === 0;
+      console.log("@@", enrichedToast, toastsByPositions);
+
+      const isInfinite = config?.duration === 0;
 
       if (!isInfinite) {
         setTimeout(() => {
           setToastsByPositions((prev) => ({
             ...prev,
-            [config.position as string]: prev[
-              config.position as ScreenPosition
-            ].map((t) =>
+            [mergedConfig.position]: prev[mergedConfig.position].map((t) =>
               t.id === enrichedToast.id ? { ...t, isExiting: true } : t,
             ),
           }));
 
           setTimeout(() => {
-            removeToast(enrichedToast.id, config.position as ScreenPosition);
+            removeToast(enrichedToast.id, mergedConfig.position);
           }, 300);
-        }, config.duration);
+        }, mergedConfig.duration);
       }
 
       setToastsByPositions((prev) => ({
         ...prev,
-        [config.position as string]: [
-          ...prev[config.position as ScreenPosition],
+        [mergedConfig.position]: [
+          ...prev[mergedConfig.position],
           enrichedToast,
         ],
       }));

@@ -17,3 +17,4 @@ export * from "./Toast";
 export { default as Tabs } from "./Tabs/Tabs";
 export { default as Typography } from "./Typography/Typography";
 export { default as ProgressBar } from "./ProgressBar/ProgressBar";
+export { default as Popover } from "./Popover/Popover";

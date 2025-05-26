@@ -35,7 +35,7 @@ const Toggle: React.FC<ToggleProps> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const {
-    filledBackgroundColorLight,
+    activeBackgroundColor,
     borderRadius,
     shadow,
     shadowInset,
@@ -51,9 +51,7 @@ const Toggle: React.FC<ToggleProps> = ({
     inputRef.current?.click();
   };
 
-  const selectedBackgroundColor = checked
-    ? filledBackgroundColorLight
-    : background;
+  const selectedBackgroundColor = checked ? activeBackgroundColor : background;
 
   const hasIcon =
     icons?.checkedIcon !== undefined && icons.uncheckedIcon !== undefined;

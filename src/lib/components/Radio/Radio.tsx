@@ -9,7 +9,7 @@ type RadioProps = {
   theme: Theme;
 } & Partial<React.InputHTMLAttributes<HTMLInputElement>>;
 
-const Radio: React.FC<RadioProps> = ({
+export const Radio: React.FC<RadioProps> = ({
   id,
   label,
   inputSize = "sm",
