@@ -1,42 +1,22 @@
-import { css, Theme, withTheme } from "@emotion/react";
+import { withTheme } from "@emotion/react";
+import { forwardRef } from "react";
 import { Sizes } from "../../constants";
-import { BOX_STYLES } from "./box.styles";
+import { StyledBox } from "./box.styles";
 
 type BoxProps = {
   inset?: boolean;
   size?: Sizes;
-  theme: Theme;
   children?: React.ReactNode;
 } & Partial<React.HTMLAttributes<HTMLDivElement>>;
 
-const Box: React.FC<BoxProps> = ({
-  theme,
-  inset = true,
-  size = "sm",
-  children,
-  ...rest
-}) => {
-  const { border, borderRadius, background, shadowInset, shadow } = theme;
-  const currentBoxStyle = BOX_STYLES[size];
-
-  return (
-    <div
-      css={css({
-        ...currentBoxStyle,
-        ...(inset && {
-          boxShadow: shadowInset,
-        }),
-        border,
-        borderRadius,
-        background,
-        boxShadow: inset ? shadowInset : shadow,
-        width: "100%",
-      })}
-      {...rest}
-    >
-      {children}
-    </div>
-  );
-};
+const Box = forwardRef<HTMLDivElement, BoxProps>(
+  ({ inset = true, size = "sm", children, ...rest }, ref) => {
+    return (
+      <StyledBox ref={ref} $inset={inset} $size={size} {...rest}>
+        {children}
+      </StyledBox>
+    );
+  },
+);
 
 export default withTheme(Box);

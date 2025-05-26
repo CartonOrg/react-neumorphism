@@ -2,7 +2,15 @@ import { css, Theme, withTheme } from "@emotion/react";
 import { defaultStyle } from "./typography.styles";
 import { sizes, Sizes } from "../../constants";
 
-interface TypographyProps {
+type TypographyVariant = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span";
+
+type TypographyRef =
+  | HTMLElement
+  | HTMLHeadingElement
+  | HTMLParagraphElement
+  | HTMLSpanElement;
+
+type TypographyProps = {
   theme: Theme;
   children: React.ReactNode;
   size?: Sizes;
@@ -10,10 +18,11 @@ interface TypographyProps {
   italic?: boolean;
   underline?: boolean;
   ellipsis?: boolean;
-  paragraph?: boolean;
   underSized?: boolean;
   overSized?: boolean;
-}
+  variant?: TypographyVariant;
+  labelStyle?: React.CSSProperties;
+} & React.HTMLAttributes<TypographyRef>;
 
 const getSize = (
   size: Sizes,
@@ -39,50 +48,39 @@ const Typography: React.FC<TypographyProps> = ({
   theme,
   children,
   size = "sm",
+  variant = "span",
   bold = false,
   italic = false,
   underline = false,
   ellipsis = false,
-  paragraph = false,
   underSized = false,
   overSized = false,
-}): React.ReactNode => {
+  labelStyle,
+  ...rest
+}) => {
   const currentSize = getSize(size, underSized, overSized);
-
-  if (paragraph) {
-    return (
-      <p
-        css={[
-          defaultStyle({
-            theme,
-            size: currentSize,
-            bold,
-            italic,
-            underline,
-          }),
-          css({
-            margin: 0,
-          }),
-        ]}
-      >
-        {children}
-      </p>
-    );
-  }
+  const Component = variant;
 
   return (
-    <span
-      css={defaultStyle({
-        theme,
-        size: currentSize,
-        bold,
-        italic,
-        underline,
-        ellipsis,
-      })}
+    <Component
+      css={[
+        defaultStyle({
+          theme,
+          size: currentSize,
+          bold,
+          italic,
+          underline,
+          ellipsis,
+        }),
+        css({
+          margin: 0,
+          ...labelStyle,
+        }),
+      ]}
+      {...rest}
     >
       {children}
-    </span>
+    </Component>
   );
 };
 

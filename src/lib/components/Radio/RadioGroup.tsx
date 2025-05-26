@@ -1,7 +1,7 @@
-import { css, withTheme } from "@emotion/react";
+import { withTheme } from "@emotion/react";
 import Radio from "./Radio";
 import { Sizes } from "../../constants";
-import { RADIO_GROUP_STYLE } from "./radioGroup.styles";
+import { StyledRadioGroupContainer } from "./radioGroup.styles";
 
 interface RadioGroupProps {
   id?: string;
@@ -26,21 +26,14 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
   onChange,
   disabled,
   size = "sm",
+  ...rest
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange?.(e.target.value);
   };
-  const radioGroupStyle = RADIO_GROUP_STYLE[size];
 
   return (
-    <div
-      id={id}
-      css={css({
-        display: "flex",
-        flexDirection: "column",
-        ...radioGroupStyle,
-      })}
-    >
+    <StyledRadioGroupContainer id={id} $size={size} {...rest}>
       {items.map((item) => (
         <Radio
           inputSize={size}
@@ -54,7 +47,7 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
           disabled={item.disabled ?? disabled}
         />
       ))}
-    </div>
+    </StyledRadioGroupContainer>
   );
 };
 

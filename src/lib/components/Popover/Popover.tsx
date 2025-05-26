@@ -1,10 +1,9 @@
-import { css, SerializedStyles, Theme, withTheme } from "@emotion/react";
+import { Theme, withTheme } from "@emotion/react";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence } from "motion/react";
 import { PopoverAlignment } from "./popover.types";
-import { spacings } from "../../constants";
-import { getPositionStyle } from "./popover.styles";
+import { getPositionStyle, StyledPopover } from "./popover.styles";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { useScroll } from "../../hooks/useScroll";
 
@@ -14,7 +13,6 @@ export interface PopoverProps {
   children?: React.ReactNode;
   alignment?: PopoverAlignment;
   onClickOutside?: () => void;
-  theme: Theme;
 }
 
 const Popover: React.FC<PopoverProps> = ({
@@ -23,9 +21,8 @@ const Popover: React.FC<PopoverProps> = ({
   children,
   alignment = "bottom-center",
   onClickOutside,
-  theme,
 }) => {
-  const [position, setPosition] = useState<SerializedStyles>();
+  const [position, setPosition] = useState<{ top: string; left: string }>();
   const popoverWrapper = useRef<HTMLDivElement | null>(null);
 
   const handleClickOutside = useCallback(() => {
@@ -38,8 +35,6 @@ const Popover: React.FC<PopoverProps> = ({
     }
     onClickOutside?.();
   });
-
-  const { background, borderRadius, shadow, border } = theme;
 
   const updatePosition = useCallback(() => {
     if (
@@ -66,28 +61,16 @@ const Popover: React.FC<PopoverProps> = ({
   return display
     ? createPortal(
         <AnimatePresence>
-          <motion.div
+          <StyledPopover
             ref={popoverWrapper}
+            style={position}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            css={[
-              css({
-                zIndex: 99999999,
-                position: "fixed",
-                width: "max-content",
-                padding: `${spacings.xs} ${spacings.sm}`,
-                background,
-                borderRadius,
-                boxShadow: shadow,
-                border,
-              }),
-              position,
-            ]}
           >
             {children}
-          </motion.div>
+          </StyledPopover>
         </AnimatePresence>,
         document.body,
       )

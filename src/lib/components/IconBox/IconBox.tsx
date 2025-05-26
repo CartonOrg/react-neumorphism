@@ -1,7 +1,7 @@
-import { SerializedStyles, Theme, withTheme } from "@emotion/react";
+import { withTheme } from "@emotion/react";
+import { forwardRef } from "react";
 import { Sizes } from "../../constants";
-import { blankStyle, defaultStyle, ICON_BOX_STYLES } from "./iconBox.styles";
-
+import { StyledBlankIconBox, StyledDefaultIconBox } from "./iconBox.styles";
 interface IconBoxProps {
   inset?: boolean;
   rounded?: boolean;
@@ -11,45 +11,53 @@ interface IconBoxProps {
   height?: string;
   icon: React.ReactNode;
   blank?: boolean;
-  theme: Theme;
-  customStyles?: SerializedStyles | SerializedStyles[];
+  customStyles?: React.CSSProperties;
 }
-const IconBox: React.FC<IconBoxProps> = ({
-  inset = false,
-  rounded = false,
-  border = false,
-  blank = false,
-  size = "sm",
-  width,
-  height,
-  icon,
-  theme,
-  customStyles,
-}) => {
-  const iconBoxSizeStyles = ICON_BOX_STYLES[size];
+const IconBox = forwardRef<HTMLDivElement, IconBoxProps>(
+  (
+    {
+      inset = false,
+      rounded = false,
+      border = false,
+      blank = false,
+      size = "sm",
+      width,
+      height,
+      icon,
+      customStyles,
+      ...rest
+    },
+    ref,
+  ) => {
+    if (blank) {
+      return (
+        <StyledBlankIconBox
+          ref={ref}
+          $size={size}
+          $customStyles={customStyles}
+          {...rest}
+        >
+          {icon}
+        </StyledBlankIconBox>
+      );
+    }
 
-  return (
-    <div
-      css={[
-        blank
-          ? blankStyle({
-              iconBoxSizeStyles,
-            })
-          : defaultStyle({
-              iconBoxSizeStyles,
-              theme,
-              width,
-              height,
-              inset,
-              rounded,
-              border,
-            }),
-        customStyles,
-      ]}
-    >
-      {icon}
-    </div>
-  );
-};
+    return (
+      <StyledDefaultIconBox
+        ref={ref}
+        $size={size}
+        $width={width}
+        $height={height}
+        $inset={inset}
+        $rounded={rounded}
+        $border={border}
+        $customStyles={customStyles}
+        {...rest}
+      >
+        {icon}
+      </StyledDefaultIconBox>
+    );
+  },
+);
 
 export default withTheme(IconBox);

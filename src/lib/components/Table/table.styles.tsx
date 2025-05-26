@@ -1,8 +1,7 @@
-import { css, SerializedStyles } from "@emotion/react";
-import { CSSProperties } from "react";
+import styled from "@emotion/styled";
 import { Sizes, spacings } from "../../constants";
 
-const TABLES_STYLES: Record<Sizes, CSSProperties> = {
+const TABLES_STYLES: Record<Sizes, React.CSSProperties> = {
   xs: {
     padding: `${spacings.sm} ${spacings.md}`,
   },
@@ -20,44 +19,47 @@ const TABLES_STYLES: Record<Sizes, CSSProperties> = {
   },
 };
 
-export const tableStyle = (
-  borderRadius: string,
-  inset: boolean,
-  shadow: string,
-): SerializedStyles =>
-  css({
-    position: "relative",
-    width: "fit-content",
-    background: "unset",
-    borderCollapse: "collapse",
-    borderSpacing: 0,
-    overflow: "hidden",
-    borderRadius,
-    boxShadow: !inset ? shadow : "unset",
-  });
+export const StyledTable = styled.table<{
+  $inset?: boolean;
+}>`
+  position: relative;
+  width: fit-content;
+  background: unset;
+  border-collapse: collapse;
+  border-spacing: 0;
+  overflow: hidden;
+  border-radius: ${({ theme }) => theme.borderRadius};
+  box-shadow: ${({ $inset, theme }) =>
+    $inset === true ? theme.shadowInset : theme.shadow};
+`;
 
-export const rowStyle = (border: string, hover?: string): SerializedStyles =>
-  css({
-    background: "unset",
-    borderBottom: border,
+export const StyledTBody = styled.tbody<{
+  $inset: boolean;
+}>`
+  box-shadow: ${({ $inset, theme }) =>
+    $inset ? theme.shadowInset : theme.shadow};
+`;
 
-    "&:hover": {
-      background: hover ?? "unset",
-    },
+export const StyledTr = styled.tr`
+  background: unset;
+  border-bottom: ${({ theme }) => theme.border};
 
-    "*": {
-      background: "unset",
-    },
-  });
-export const cellStyle = (size: Sizes): SerializedStyles =>
-  css({
-    background: "unset",
-    padding: TABLES_STYLES[size].padding,
-    textAlign: "left",
-  });
-export const headerCellStyle = css({
-  background: "unset",
-  textAlign: "left",
-  fontWeight: "bold",
-  textTransform: "capitalize",
-});
+  &:hover {
+    background: ${({ theme }) => theme.hoverBackground ?? "unset"};
+  }
+
+  * {
+    background: unset;
+  }
+`;
+
+export const StyledTd = styled.td<{ $size: Sizes }>`
+  background: unset;
+  padding: ${({ $size }) => TABLES_STYLES[$size].padding};
+  text-align: left;
+`;
+
+export const StyledHeaderTd = styled(StyledTd)`
+  font-weight: bold;
+  text-transform: capitalize;
+`;

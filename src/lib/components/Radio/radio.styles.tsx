@@ -1,12 +1,25 @@
-import { CSSProperties } from "react";
+import { Theme } from "@emotion/react";
+import styled from "@emotion/styled";
 import { getSpacing, Sizes } from "../../constants";
 
 export const RADIO_STYLE: Record<
   Sizes,
   {
-    label: CSSProperties;
-    before: CSSProperties;
-    after: CSSProperties;
+    label: {
+      paddingLeft: string;
+      lineHeight: string;
+      fontSize: string;
+    };
+    before: {
+      width: string;
+      height: string;
+    };
+    after: {
+      width: string;
+      height: string;
+      top: string;
+      left: string;
+    };
   }
 > = {
   xs: {
@@ -97,3 +110,60 @@ export const RADIO_STYLE: Record<
     },
   },
 };
+
+export const StyledRadioContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  input + label:after {
+    opacity: 0;
+  }
+
+  input:checked + label:after {
+    opacity: 1;
+  }
+
+  input:disabled + label {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
+
+export const StyledRadioInput = styled.input`
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+`;
+
+export const StyledRadioLabel = styled.label<{
+  $inputSize: Sizes;
+}>`
+  ${({ $inputSize }) => ({ ...RADIO_STYLE[$inputSize].label })}
+
+  &:before,
+  &:after {
+    content: " ";
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: ${({ theme }) => theme.background};
+    border: ${({ theme }) => theme.border};
+    transition: all 0.2s ease-in-out;
+    border-radius: 100%;
+  }
+
+  &:before {
+    box-shadow: ${({ theme }) => theme.shadowInset};
+    ${({ $inputSize }) => ({ ...RADIO_STYLE[$inputSize].before })}
+  }
+
+  &:after {
+    ${({ $inputSize }) => ({ ...RADIO_STYLE[$inputSize].after })}
+    content: "";
+    border: unset;
+    background: ${({ theme }) => theme.fontColor};
+  }
+`;

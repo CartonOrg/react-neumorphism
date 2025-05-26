@@ -1,14 +1,15 @@
-import { CSSProperties } from "react";
+import styled from "@emotion/styled";
 import { Sizes, spacings } from "../../constants";
+import { IconStyle } from "../../types";
 
 export const INPUT_STYLES: Record<
   Sizes,
   {
-    container: CSSProperties;
-    inputContainer: CSSProperties;
-    label: CSSProperties;
-    input: CSSProperties;
-    icon: CSSProperties;
+    container: React.CSSProperties;
+    inputContainer: React.CSSProperties;
+    label: React.CSSProperties;
+    input: React.CSSProperties;
+    icon: React.CSSProperties;
   }
 > = {
   xs: {
@@ -135,3 +136,59 @@ export const OUTLINE_INPUT_CONTAINER_STYLE: Record<
     },
   },
 };
+
+export const StyledInputLabel = styled.label<{ $inputSize: Sizes }>`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: ${spacings.sm};
+  ${({ $inputSize }) => ({ ...INPUT_STYLES[$inputSize].container })}
+`;
+
+export const StyledInputContainer = styled.div<{
+  $inputSize: Sizes;
+  $iconStyle: IconStyle;
+  $hasIconLeft?: boolean;
+  $hasIconRight?: boolean;
+  $disabled?: boolean;
+}>`
+  display: flex;
+  align-items: center;
+  border: ${({ theme }) => theme.border};
+  border-radius: ${({ theme }) => theme.borderRadius};
+  background: ${({ theme }) => theme.background};
+  box-shadow: ${({ theme }) => theme.shadowInset};
+  ${({ $inputSize, $iconStyle }) => ({
+    ...($iconStyle === "outline"
+      ? { ...OUTLINE_INPUT_CONTAINER_STYLE[$inputSize].inputContainer }
+      : { ...INPUT_STYLES[$inputSize].inputContainer }),
+  })}
+  ${({ $disabled }) =>
+    $disabled === true && {
+      opacity: 0.5,
+      cursor: "not-allowed",
+    }}
+   ${({ $hasIconLeft, $hasIconRight }) =>
+    ($hasIconRight === true && $hasIconLeft === false) ||
+    ($hasIconRight === false && $hasIconLeft === false)
+      ? {
+          paddingLeft: 0,
+        }
+      : {}}
+`;
+
+export const StyledInput = styled.input<{ $inputSize: Sizes }>`
+  ${({ $inputSize }) => ({ ...INPUT_STYLES[$inputSize].input })}
+  outline: unset;
+  border: unset;
+  background: transparent;
+  text-align: left;
+  width: 100%;
+  height: 100%;
+  color: ${({ theme }) => theme.fontColor};
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;

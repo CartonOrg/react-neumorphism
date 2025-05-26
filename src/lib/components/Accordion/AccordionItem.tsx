@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
-import { css, Theme, withTheme } from "@emotion/react";
-import { AnimatePresence, motion } from "motion/react";
-import { Sizes, spacings } from "../../constants";
-import { PlusIcon } from "../../icons";
+import { withTheme } from "@emotion/react";
+import { AnimatePresence } from "motion/react";
+import { Sizes } from "../../constants";
 import { getIconDisplay } from "../../utils/icon";
 import IconBox from "../IconBox/IconBox";
 import Typography from "../Typography/Typography";
-const rotateOpenIconStyle = (open: boolean) =>
-  css({
-    transition: "transform 0.3s ease-in-out",
-    transform: open ? "rotate(45deg)" : "rotate(0deg)",
-  });
+import {
+  StyledAccordionContent,
+  StyledAccordionContentInner,
+  StyledAccordionHeader,
+  StyledAccordionItemContainer,
+  StyledAccordionTitle,
+  StyledRotatingIcon,
+} from "./accordionItem.styles";
 
 export interface AccordionItem {
   icon?: React.ReactNode;
@@ -21,7 +23,6 @@ export interface AccordionItem {
 }
 
 interface AccordionItemProps extends AccordionItem {
-  theme: Theme;
   onOpen?: () => void;
   size?: Sizes;
 }
@@ -31,13 +32,11 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
   title,
   content,
   initiallyOpen,
-  theme,
   size,
   onOpen,
   iconStyle = "default",
 }) => {
   const [isOpen, setIsOpen] = useState(initiallyOpen ?? false);
-  const { border } = theme;
 
   useEffect(() => {
     setIsOpen(initiallyOpen ?? false);
@@ -51,52 +50,22 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
   const iconDisplay = getIconDisplay(icon, iconStyle, size);
 
   return (
-    <div
-      css={css({
-        position: "relative",
-        width: "100%",
-        padding: spacings.xl,
-
-        "&:not(:last-child):after": {
-          content: "''",
-          position: "absolute",
-          bottom: 0,
-          right: 0,
-          width: "100%",
-          borderBottom: border,
-        },
-      })}
-    >
-      <div
-        onClick={handleOpening}
-        css={css({
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        })}
-      >
-        <span
-          css={css({
-            display: "inline-flex",
-            alignItems: "center",
-            gap: spacings.lg,
-            userSelect: "none",
-          })}
-        >
+    <StyledAccordionItemContainer>
+      <StyledAccordionHeader onClick={handleOpening}>
+        <StyledAccordionTitle>
           {iconDisplay}
           <Typography size={size}>{title}</Typography>
-        </span>
+        </StyledAccordionTitle>
 
         <IconBox
           blank
-          icon={<PlusIcon customStyle={rotateOpenIconStyle(isOpen)} />}
+          icon={<StyledRotatingIcon $isOpen={isOpen} />}
           size={size}
         />
-      </div>
+      </StyledAccordionHeader>
 
       <AnimatePresence>
-        <motion.div
+        <StyledAccordionContent
           initial={{ height: 0, opacity: 0 }}
           animate={{
             height: isOpen ? "auto" : 0,
@@ -107,20 +76,11 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
             opacity: { duration: 0.2 },
             height: { duration: 0.1, ease: "linear" },
           }}
-          css={css({
-            overflow: "hidden",
-          })}
         >
-          <div
-            css={css({
-              padding: `${spacings.lg} 0 0`,
-            })}
-          >
-            {content}
-          </div>
-        </motion.div>
+          <StyledAccordionContentInner>{content}</StyledAccordionContentInner>
+        </StyledAccordionContent>
       </AnimatePresence>
-    </div>
+    </StyledAccordionItemContainer>
   );
 };
 

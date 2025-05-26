@@ -24,11 +24,3 @@ Created by Carton
 
 ## License
 MIT
-
-
-
-
-TODO:
-
-- Rendre plus simple le fait de customiser mes composants avec du style par dessus, utilisation de emotion ou style ?
-- Rendre plus simple le theme + custom neumorphism

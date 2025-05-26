@@ -1,41 +1,23 @@
-import { css, Theme, withTheme } from "@emotion/react";
+import { withTheme } from "@emotion/react";
+import { forwardRef } from "react";
 import { Sizes } from "../../constants";
-import { BADGE_STYLES } from "./badge.styles";
+import { StyledBadge } from "./badge.styles";
 import Typography from "../Typography/Typography";
 
 type BadgeProps = {
   inset?: boolean;
-  theme: Theme;
   size?: Sizes;
   children: React.ReactNode;
 } & Partial<React.HTMLAttributes<HTMLDivElement>>;
 
-const Badge: React.FC<BadgeProps> = ({
-  theme,
-  children,
-  inset = false,
-  size = "sm",
-  ...rest
-}) => {
-  const { background, borderRadius, border, shadowInset, shadow } = theme;
-  const currentBadgeStyles = BADGE_STYLES[size];
-
-  return (
-    <div
-      css={css({
-        ...currentBadgeStyles,
-        background,
-        borderRadius,
-        border,
-        height: "fit-content",
-        width: "fit-content",
-        boxShadow: inset ? shadowInset : shadow,
-      })}
-      {...rest}
-    >
-      <Typography size={size}>{children}</Typography>
-    </div>
-  );
-};
+const Badge = forwardRef<HTMLDivElement, BadgeProps>(
+  ({ children, inset = false, size = "sm", ...rest }, ref) => {
+    return (
+      <StyledBadge ref={ref} $inset={inset} $size={size} {...rest}>
+        <Typography size={size}>{children}</Typography>
+      </StyledBadge>
+    );
+  },
+);
 
 export default withTheme(Badge);

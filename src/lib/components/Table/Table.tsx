@@ -1,16 +1,17 @@
-import { css, Theme, withTheme } from "@emotion/react";
-import {
-  cellStyle,
-  headerCellStyle,
-  rowStyle,
-  tableStyle,
-} from "./table.styles";
+import { withTheme } from "@emotion/react";
 import { Sizes } from "../../constants";
 import { Typography } from "..";
+import {
+  StyledHeaderTd,
+  StyledTable,
+  StyledTBody,
+  StyledTd,
+  StyledTr,
+} from "./table.styles";
+
 type TableProps<T> = {
   inset?: boolean;
   size?: Sizes;
-  theme: Theme;
   columns: Array<keyof T>;
   data: T[];
   templates?: Partial<
@@ -20,51 +21,40 @@ type TableProps<T> = {
 
 const Table = <T,>({
   size = "sm",
-  theme,
   columns,
   data,
   templates,
   inset = true,
-  ...props
+  ...rest
 }: TableProps<T>): React.ReactNode => {
-  const { hoverBackground, border, shadow, borderRadius, shadowInset } = theme;
-
   return (
-    <table {...props} css={[tableStyle(borderRadius, inset, shadow)]}>
-      <tbody
-        css={css({
-          boxShadow: inset ? shadowInset : "unset",
-        })}
-      >
-        <tr css={rowStyle(border)}>
+    <StyledTable $inset={inset} {...rest}>
+      <StyledTBody $inset={inset}>
+        <StyledTr>
           {columns.map((col) => (
-            <td key={String(col)} css={[cellStyle(size), headerCellStyle]}>
+            <StyledHeaderTd key={String(col)} $size={size}>
               <Typography size={size} bold>
                 {String(col)}
               </Typography>
-            </td>
+            </StyledHeaderTd>
           ))}
-        </tr>
+        </StyledTr>
 
         {data.map((row, rowIdx) => (
-          <tr
-            key={rowIdx}
-            id={`row-${rowIdx}`}
-            css={rowStyle(border, hoverBackground)}
-          >
+          <StyledTr key={rowIdx} id={`row-${rowIdx}`}>
             {columns.map((col, colIdx) => (
-              <td key={String(col)} css={[cellStyle(size)]}>
+              <StyledTd key={String(col)} $size={size}>
                 {templates && templates[col] ? (
                   templates[col]!(row, rowIdx, colIdx)
                 ) : (
                   <Typography size={size}>{String(row[col])}</Typography>
                 )}
-              </td>
+              </StyledTd>
             ))}
-          </tr>
+          </StyledTr>
         ))}
-      </tbody>
-    </table>
+      </StyledTBody>
+    </StyledTable>
   );
 };
 

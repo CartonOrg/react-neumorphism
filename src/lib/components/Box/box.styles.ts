@@ -1,7 +1,7 @@
-import { CSSProperties } from "react";
+import styled from "@emotion/styled";
 import { Sizes, spacings } from "../../constants";
 
-export const BOX_STYLES: Record<Sizes, CSSProperties> = {
+export const BOX_STYLES: Record<Sizes, React.CSSProperties> = {
   xs: {
     padding: `${spacings.xs} ${spacings.sm}`,
   },
@@ -18,3 +18,15 @@ export const BOX_STYLES: Record<Sizes, CSSProperties> = {
     padding: `${spacings.xl} ${spacings.xl}`,
   },
 };
+
+export const StyledBox = styled.div<{ $inset?: boolean; $size: Sizes }>`
+  width: 100%;
+  boxshadow: ${({ theme, $inset }) =>
+    $inset === true ? theme.shadowInset : theme.shadow};
+  border: ${({ theme }) => theme.border};
+  border-radius: ${({ theme }) => theme.borderRadius};
+  background: ${({ theme }) => theme.background};
+  ${({ $size }) => ({
+    ...BOX_STYLES[$size],
+  })}
+`;

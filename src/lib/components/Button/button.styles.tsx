@@ -1,4 +1,5 @@
 import { CSSProperties } from "react";
+import styled from "@emotion/styled";
 import { Sizes, spacings } from "../../constants";
 
 export const BUTTON_STYLES: Record<
@@ -67,3 +68,48 @@ export const BUTTON_STYLES: Record<
     },
   },
 };
+
+export const StyledButton = styled.button<{
+  $size: Sizes;
+  $rounded: boolean;
+  $border: boolean;
+  $hasIcon: boolean;
+  $hasOnlyIcon: boolean;
+  $isLoading: boolean;
+}>`
+  ${({ theme, $size }) => ({
+    ...BUTTON_STYLES[$size].container,
+    outline: "unset",
+    background: theme.background,
+    boxShadow: theme.shadow,
+    width: "fit-content",
+    cursor: "pointer",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  })}
+
+  border: ${({ theme, $border }) => ($border ? theme.border : "unset")};
+  border-radius: ${({ theme, $rounded }) =>
+    $rounded ? "50px" : theme.borderRadius};
+  gap: ${({ $size, $hasIcon, $isLoading }) =>
+    $hasIcon || $isLoading ? BUTTON_STYLES[$size].container.gap : "0"};
+  padding: ${({ $size, $hasOnlyIcon }) =>
+    $hasOnlyIcon
+      ? BUTTON_STYLES[$size].custom.padding
+      : BUTTON_STYLES[$size].container.padding};
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:hover {
+    box-shadow: ${({ theme }) => theme.shadowInset};
+  }
+
+  & > svg {
+    width: ${({ $size }) => BUTTON_STYLES[$size].custom.iconSize};
+    height: ${({ $size }) => BUTTON_STYLES[$size].custom.iconSize};
+  }
+`;

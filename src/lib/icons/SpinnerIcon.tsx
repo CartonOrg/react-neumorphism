@@ -9,7 +9,11 @@ const spin = keyframes`
   }
 `;
 
-const SpinnerIcon = ({ color }: { color: string }): React.ReactNode => {
+const SpinnerIcon = ({
+  color,
+}: {
+  color: React.CSSProperties["color"];
+}): React.ReactNode => {
   return (
     <div
       css={css({

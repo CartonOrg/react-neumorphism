@@ -1,71 +1,61 @@
-import { CSSProperties } from "react";
+import styled from "@emotion/styled";
+import { Theme } from "@emotion/react";
 import { Sizes, spacings } from "../../constants";
 
-export const TEXTAREA_STYLES: Record<
-  Sizes,
-  {
-    container: CSSProperties;
-    label: CSSProperties;
-    textarea: CSSProperties;
-  }
-> = {
-  xs: {
-    container: {
-      gap: spacings.xs,
-    },
-    label: {
-      fontSize: "10px",
-    },
-    textarea: {
-      padding: `${spacings.md} ${spacings.md}`,
-    },
-  },
-  sm: {
-    container: {
-      gap: spacings.sm,
-    },
-    label: {
-      fontSize: "12px",
-    },
-    textarea: {
-      fontSize: "12px",
-      padding: `${spacings.md} ${spacings.md}`,
-    },
-  },
-  md: {
-    container: {
-      gap: spacings.sm,
-    },
-    label: {
-      fontSize: "14px",
-    },
-    textarea: {
-      fontSize: "14px",
-      padding: `${spacings.md} ${spacings.lg}`,
-    },
-  },
-  lg: {
-    container: {
-      gap: spacings.sm,
-    },
-    label: {
-      fontSize: "16px",
-    },
-    textarea: {
-      fontSize: "16px",
-      padding: `${spacings.lg} ${spacings.xl}`,
-    },
-  },
-  xl: {
-    container: {
-      gap: spacings.sm,
-    },
-    label: {
-      fontSize: "18px",
-    },
-    textarea: {
-      padding: `${spacings.lg} ${spacings.xl}`,
-      fontSize: "18px",
-    },
-  },
+type StyledTextAreaProps = {
+  $textAreaSize: Sizes;
+  $enableDynamicHeight: boolean;
 };
+
+export const StyledLabel = styled.label<{ $textAreaSize: Sizes }>`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: ${({ $textAreaSize }) =>
+    $textAreaSize === "xs" ? spacings.xs : spacings.sm};
+`;
+
+export const StyledTextArea = styled.textarea<StyledTextAreaProps>`
+  outline: unset;
+  text-align: left;
+  width: 100%;
+  min-height: ${({ $enableDynamicHeight }) =>
+    $enableDynamicHeight ? "auto" : "100%"};
+  border: ${({ theme }) => theme.border};
+  border-radius: ${({ theme }) => theme.borderRadius};
+  background: ${({ theme }) => theme.background};
+  box-shadow: ${({ theme }) => theme.shadowInset};
+  color: ${({ theme }) => theme.fontColor};
+  resize: none;
+  padding: ${({ $textAreaSize }) => {
+    switch ($textAreaSize) {
+      case "xs":
+      case "sm":
+        return `${spacings.md} ${spacings.md}`;
+      case "md":
+        return `${spacings.md} ${spacings.lg}`;
+      case "lg":
+      case "xl":
+        return `${spacings.lg} ${spacings.xl}`;
+    }
+  }};
+  font-size: ${({ $textAreaSize }) => {
+    switch ($textAreaSize) {
+      case "xs":
+        return "10px";
+      case "sm":
+        return "12px";
+      case "md":
+        return "14px";
+      case "lg":
+        return "16px";
+      case "xl":
+        return "18px";
+    }
+  }};
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;

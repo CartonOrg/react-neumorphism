@@ -1,11 +1,10 @@
-import { css, Theme, withTheme } from "@emotion/react";
-import { useCallback, useEffect, useRef } from "react";
-import { Sizes, spacings } from "../../constants";
-import { TEXTAREA_STYLES } from "./textArea.styles";
+import { forwardRef, useCallback, useEffect } from "react";
+import { Sizes } from "../../constants";
 import Typography from "../Typography/Typography";
+import { StyledLabel, StyledTextArea } from "./textArea.styles";
+import { useForwardRef } from "../../hooks/useForwardRef";
 
 type TextAreaProps = {
-  theme: Theme;
   label?: string;
   textAreaSize?: Sizes;
   enableDynamicHeight?: boolean;
@@ -13,73 +12,42 @@ type TextAreaProps = {
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 } & Partial<React.TextareaHTMLAttributes<HTMLTextAreaElement>>;
 
-const TextArea: React.FC<TextAreaProps> = ({
-  theme,
-  label,
-  textAreaSize = "sm",
-  enableDynamicHeight = true,
-  value,
-  ...rest
-}) => {
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const { border, borderRadius, background, shadowInset } = theme;
-  const currentTextareaStyle = TEXTAREA_STYLES[textAreaSize];
+const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
+  (
+    { label, textAreaSize = "sm", enableDynamicHeight = true, value, ...rest },
+    ref,
+  ) => {
+    const textAreaRef = useForwardRef<HTMLTextAreaElement>(ref);
 
-  const adjustHeight = useCallback(() => {
-    const textarea = textAreaRef.current;
-    if (textarea && enableDynamicHeight) {
-      textarea.style.height = "auto";
-      textarea.style.height = `${textarea.scrollHeight}px`;
-    }
-  }, [enableDynamicHeight]);
+    const adjustHeight = useCallback(() => {
+      const textarea = textAreaRef.current;
+      if (enableDynamicHeight) {
+        textarea.style.height = "auto";
+        textarea.style.height = `${textarea.scrollHeight}px`;
+      }
+    }, [enableDynamicHeight]);
 
-  useEffect(() => {
-    if (!enableDynamicHeight) {
-      return;
-    }
+    useEffect(() => {
+      if (!enableDynamicHeight) {
+        return;
+      }
+      adjustHeight();
+    }, [value, adjustHeight]);
 
-    adjustHeight();
-  }, [value, adjustHeight]);
+    return (
+      <StyledLabel $textAreaSize={textAreaSize}>
+        {label !== undefined && (
+          <Typography size={textAreaSize}>{label}</Typography>
+        )}
+        <StyledTextArea
+          {...rest}
+          ref={textAreaRef}
+          $textAreaSize={textAreaSize}
+          $enableDynamicHeight={enableDynamicHeight}
+        />
+      </StyledLabel>
+    );
+  },
+);
 
-  return (
-    <label
-      css={css({
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        gap: spacings.sm,
-        ...currentTextareaStyle.container,
-      })}
-    >
-      {label !== undefined && (
-        <Typography size={textAreaSize}>{label}</Typography>
-      )}
-
-      <textarea
-        {...rest}
-        css={css({
-          ...currentTextareaStyle.textarea,
-          outline: "unset",
-          textAlign: "left",
-          width: "100%",
-          minHeight: enableDynamicHeight
-            ? currentTextareaStyle.textarea.height
-            : "100%",
-          border,
-          borderRadius,
-          background,
-          boxShadow: shadowInset,
-
-          "&:disabled": {
-            opacity: 0.5,
-            cursor: "not-allowed",
-          },
-          resize: "none",
-        })}
-        ref={textAreaRef}
-      />
-    </label>
-  );
-};
-
-export default withTheme(TextArea);
+export default TextArea;

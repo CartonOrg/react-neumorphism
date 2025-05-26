@@ -5,23 +5,23 @@ export interface NeumorphismConfig {
 }
 
 export interface ColorsConfig {
-  backgroundColor: string;
-  lightShadow: string;
-  darkShadow: string;
-  activeBackgroundColor: string;
-  hoverBackgroundColor: string;
+  backgroundColor: React.CSSProperties["color"];
+  lightShadow: React.CSSProperties["color"];
+  darkShadow: React.CSSProperties["color"];
+  activeBackgroundColor: React.CSSProperties["color"];
+  hoverBackgroundColor: React.CSSProperties["color"];
 }
 
 export interface BorderConfig {
-  borderColor: string;
-  borderRadius: string;
-  borderWidth: string;
-  borderStyle: string;
+  borderColor: React.CSSProperties["borderColor"];
+  borderRadius: React.CSSProperties["borderRadius"];
+  borderWidth: React.CSSProperties["borderWidth"];
+  borderStyle: React.CSSProperties["borderStyle"];
 }
 
 export interface TypographyConfig {
-  fontFamily: string;
-  fontColor: string;
+  fontFamily: React.CSSProperties["fontFamily"];
+  fontColor: React.CSSProperties["color"];
 }
 
 export interface ReactNeumorphismConfig {
@@ -35,11 +35,11 @@ export interface ReactNeumorphismAugmentedTheme
     ColorsConfig,
     TypographyConfig,
     BorderConfig {
-  background: string;
-  hoverBackground: string;
-  shadow: string;
-  shadowInset: string;
-  border: string;
+  background: React.CSSProperties["background"];
+  hoverBackground: React.CSSProperties["background"];
+  shadow: React.CSSProperties["boxShadow"];
+  shadowInset: React.CSSProperties["boxShadow"];
+  border: React.CSSProperties["border"];
 }
 
 declare module "@emotion/react" {

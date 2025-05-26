@@ -1,13 +1,13 @@
-import { CSSProperties } from "react";
+import styled from "@emotion/styled";
 import { getSpacing, Sizes, spacings } from "../../constants";
 
-export const CHECKBOX_STYLE: Record<
+const CHECKBOX_STYLE: Record<
   Sizes,
   {
-    label: CSSProperties;
-    beforeAfter: CSSProperties;
-    before: CSSProperties;
-    after: CSSProperties;
+    label: React.CSSProperties;
+    beforeAfter: React.CSSProperties;
+    before: React.CSSProperties;
+    after: React.CSSProperties;
   }
 > = {
   xs: {
@@ -111,3 +111,61 @@ export const CHECKBOX_STYLE: Record<
     },
   },
 };
+
+export const StyledCheckboxContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  input:checked + label:after {
+    opacity: 1;
+  }
+
+  input + label:after {
+    opacity: 0;
+  }
+
+  input:disabled + label {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
+
+export const StyledHiddenInput = styled.input`
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+`;
+
+export const StyledCheckboxLabel = styled.label<{ $size: Sizes }>`
+  ${({ theme, $size }) => ({
+    position: "relative",
+    cursor: "pointer",
+    userSelect: "none",
+    ...CHECKBOX_STYLE[$size].label,
+
+    "&:before, &:after": {
+      content: '" "',
+      display: "inline-block",
+      position: "absolute",
+      top: 0,
+      left: 0,
+      ...CHECKBOX_STYLE[$size].beforeAfter,
+    },
+
+    "&:before": {
+      boxShadow: theme.shadowInset,
+      ...CHECKBOX_STYLE[$size].before,
+    },
+
+    "&:after": {
+      ...CHECKBOX_STYLE[$size].after,
+      border: `2px solid ${theme.fontColor}`,
+      borderTop: "none",
+      borderLeft: "none",
+      transform: "rotate(45deg)",
+      background: "transparent",
+    },
+  })}
+`;

@@ -1,7 +1,8 @@
 import { css, SerializedStyles } from "@emotion/react";
+import styled from "@emotion/styled";
+import { motion } from "motion/react";
 import { spacings } from "../../constants";
 import { TooltipAlignment } from "./tooltip.types";
-
 export const getPositionStyle = (
   wrapper: HTMLElement,
   tooltipWrapper: HTMLElement,
@@ -48,3 +49,23 @@ export const getPositionStyle = (
       });
   }
 };
+
+export const StyledTooltipWrapper = styled.div`
+  width: fit-content;
+`;
+
+export const StyledTooltip = styled(motion.div)`
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999999;
+  width: max-content;
+  max-width: 320px;
+  padding: ${spacings.xs} ${spacings.sm};
+  background: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.fontColor};
+  border-radius: ${({ theme }) => theme.borderRadius};
+  box-shadow: ${({ theme }) => theme.shadow};
+  border: ${({ theme }) => theme.border};
+`;

@@ -1,8 +1,6 @@
 import { css, SerializedStyles } from "@emotion/react";
-import { CSSProperties } from "react";
 import { ScreenPosition } from "../../types";
 import { spacings } from "../../constants";
-
 export const getPositionStyle = (
   position: ScreenPosition,
   containerRef: HTMLDivElement | null,
@@ -68,7 +66,7 @@ export const getToastsAnimation = (
 
 export const getToastAlignement = (
   position: ScreenPosition,
-): CSSProperties["alignItems"] => {
+): React.CSSProperties["alignItems"] => {
   switch (position) {
     case "top-right":
       return "flex-end";

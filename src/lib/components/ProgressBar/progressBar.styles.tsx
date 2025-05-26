@@ -1,11 +1,12 @@
-import { CSSProperties } from "react";
+import styled from "@emotion/styled";
+import { motion } from "motion/react";
 import { Sizes, spacings } from "../../constants";
 
 export const PROGRESS_BAR_STYLES: Record<
   Sizes,
   {
-    bar: CSSProperties;
-    title: CSSProperties;
+    bar: React.CSSProperties;
+    title: React.CSSProperties;
   }
 > = {
   xs: {
@@ -49,3 +50,37 @@ export const PROGRESS_BAR_STYLES: Record<
     },
   },
 };
+
+export const StyledContainer = styled.div<{ $size: Sizes }>`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  ${({ $size }) => ({ ...PROGRESS_BAR_STYLES[$size].title })}
+`;
+
+export const StyledLabelContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
+
+export const StyledProgressBar = styled.div<{ $size: Sizes }>`
+  position: relative;
+  width: 100%;
+  border-radius: ${({ theme }) => theme.borderRadius};
+  background: ${({ theme }) => theme.background};
+  box-shadow: ${({ theme }) => theme.shadow};
+  border: ${({ theme }) => theme.border};
+  overflow: hidden;
+  ${({ $size }) => ({ ...PROGRESS_BAR_STYLES[$size].bar })}
+`;
+
+export const StyledProgress = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  max-width: 100%;
+  background: ${({ theme }) => theme.activeBackgroundColor};
+`;

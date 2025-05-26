@@ -1,7 +1,7 @@
-import { CSSProperties } from "react";
+import styled from "@emotion/styled";
 import { Sizes, spacings } from "../../constants";
 
-export const BADGE_STYLES: Record<Sizes, CSSProperties> = {
+export const BADGE_STYLES: Record<Sizes, React.CSSProperties> = {
   xs: {
     padding: `${spacings.xs} ${spacings.sm}`,
     fontSize: "10px",
@@ -28,3 +28,15 @@ export const BADGE_STYLES: Record<Sizes, CSSProperties> = {
     borderRadius: "12px",
   },
 };
+
+export const StyledBadge = styled.div<{ $inset: boolean; $size: Sizes }>`
+  ${({ theme, $inset, $size }) => ({
+    ...BADGE_STYLES[$size],
+    background: theme.background,
+    borderRadius: theme.borderRadius,
+    border: theme.border,
+    height: "fit-content",
+    width: "fit-content",
+    boxShadow: $inset ? theme.shadowInset : theme.shadow,
+  })}
+`;
