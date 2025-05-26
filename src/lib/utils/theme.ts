@@ -16,13 +16,19 @@ import {
   TypographyConfig,
 } from "../types/theme";
 
-export const buildAugmentedTheme = (
-  mode: DefaultModeTheme,
-  neumorphismConfig?: NeumorphismConfig,
-  colorsConfig?: ColorsConfig,
-  typographyConfig?: TypographyConfig,
-  borderConfig?: BorderConfig,
-): ReactNeumorphismAugmentedTheme => {
+export const buildAugmentedTheme = ({
+  mode,
+  neumorphismConfig,
+  colorsConfig,
+  typographyConfig,
+  borderConfig,
+}: {
+  mode: DefaultModeTheme;
+  neumorphismConfig?: Partial<NeumorphismConfig>;
+  colorsConfig?: Partial<ColorsConfig>;
+  typographyConfig?: Partial<TypographyConfig>;
+  borderConfig?: Partial<BorderConfig>;
+}): ReactNeumorphismAugmentedTheme => {
   const currentCurrentColorsConfig: ColorsConfig = {
     ...(mode === "dark" ? defaultDarkColorsTheme : defaultLightColorsTheme),
     ...colorsConfig,

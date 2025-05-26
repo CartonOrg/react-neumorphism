@@ -1,27 +1,33 @@
 export type DefaultModeTheme = "dark" | "light";
 export interface NeumorphismConfig {
-  distance?: string;
-  blur?: string;
+  distance: string;
+  blur: string;
 }
 
 export interface ColorsConfig {
-  backgroundColor?: string;
-  lightShadow?: string;
-  darkShadow?: string;
-  activeBackgroundColor?: string;
-  hoverBackgroundColor?: string;
+  backgroundColor: string;
+  lightShadow: string;
+  darkShadow: string;
+  activeBackgroundColor: string;
+  hoverBackgroundColor: string;
 }
 
 export interface BorderConfig {
-  borderColor?: string;
-  borderRadius?: string;
-  borderWidth?: string;
-  borderStyle?: string;
+  borderColor: string;
+  borderRadius: string;
+  borderWidth: string;
+  borderStyle: string;
 }
 
 export interface TypographyConfig {
-  fontFamily?: string;
-  fontColor?: string;
+  fontFamily: string;
+  fontColor: string;
+}
+
+export interface ReactNeumorphismConfig {
+  dark: ColorsConfig;
+  light: ColorsConfig;
+  typography: TypographyConfig;
 }
 
 export interface ReactNeumorphismAugmentedTheme

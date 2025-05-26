@@ -37,10 +37,10 @@ const globalOverridesStyles = (
 
 interface ThemeProviderProps {
   mode: DefaultModeTheme;
-  neumorphismConfig?: NeumorphismConfig;
-  colorsConfig?: ColorsConfig;
-  typographyConfig?: TypographyConfig;
-  borderConfig?: BorderConfig;
+  neumorphismConfig?: Partial<NeumorphismConfig>;
+  colorsConfig?: Partial<ColorsConfig>;
+  typographyConfig?: Partial<TypographyConfig>;
+  borderConfig?: Partial<BorderConfig>;
   children: React.ReactNode;
 }
 
@@ -52,13 +52,13 @@ export const ThemeProvider = ({
   typographyConfig,
   children,
 }: ThemeProviderProps): React.ReactNode => {
-  const buildedAugmentedTheme = buildAugmentedTheme(
+  const buildedAugmentedTheme = buildAugmentedTheme({
     mode,
     neumorphismConfig,
     colorsConfig,
     typographyConfig,
     borderConfig,
-  );
+  });
 
   return (
     <EmotionThemeProvider theme={buildedAugmentedTheme}>
