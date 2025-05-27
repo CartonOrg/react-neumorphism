@@ -12,6 +12,8 @@ export const ButtonsDisplayer = (): React.ReactNode => {
           size="xs"
           labelStyle={{ color: "red" }}
           buttonStyle={{ background: "blue" }}
+          id="test"
+          name="test"
         >
           Click me
         </Button>

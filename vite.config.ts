@@ -44,19 +44,29 @@ export default defineConfig({
         "react-dom",
         "@emotion/react",
         "@emotion/css",
+        "@emotion/styled",
         "motion",
         /^@emotion\/.*/,
         /^react(-dom)?$/,
         /^@types\/.*/,
         /^motion(\/.*)?$/,
       ],
+
       output: {
+        globals: {
+          "react-dom": "ReactDOM",
+          react: "React",
+        },
         preserveModules: true,
         preserveModulesRoot: "src/lib",
         inlineDynamicImports: false,
         format: "es",
         entryFileNames: ({ name }) => {
           const cleanName = name.replace("/index", "");
+
+          if (name.includes("_virtual")) {
+            return "[name].js";
+          }
 
           return `${cleanName}.js`;
         },
@@ -71,10 +81,6 @@ export default defineConfig({
               "types",
               "constants",
               "providers",
-              "utils",
-              "hooks",
-              "icons",
-              "Displayer",
             ];
 
             for (const moduleType of moduleTypes) {

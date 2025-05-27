@@ -13,6 +13,7 @@ export interface PopoverProps {
   children?: React.ReactNode;
   alignment?: PopoverAlignment;
   onClickOutside?: () => void;
+  popoverContainerStyle?: React.CSSProperties;
 }
 
 const Popover: React.FC<PopoverProps> = ({
@@ -21,6 +22,7 @@ const Popover: React.FC<PopoverProps> = ({
   children,
   alignment = "bottom-center",
   onClickOutside,
+  popoverContainerStyle,
 }) => {
   const [position, setPosition] = useState<{ top: string; left: string }>();
   const popoverWrapper = useRef<HTMLDivElement | null>(null);
@@ -68,6 +70,7 @@ const Popover: React.FC<PopoverProps> = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
+            $popoverContainerStyle={popoverContainerStyle}
           >
             {children}
           </StyledPopover>

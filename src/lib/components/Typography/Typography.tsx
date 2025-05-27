@@ -1,8 +1,6 @@
 import { css, Theme, withTheme } from "@emotion/react";
-import { defaultStyle } from "./typography.styles";
+import { defaultStyle, TypographyVariant } from "./typography.styles";
 import { sizes, Sizes } from "../../constants";
-
-type TypographyVariant = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span";
 
 type TypographyRef =
   | HTMLElement
@@ -65,6 +63,7 @@ const Typography: React.FC<TypographyProps> = ({
     <Component
       css={[
         defaultStyle({
+          variant,
           theme,
           size: currentSize,
           bold,

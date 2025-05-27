@@ -3,7 +3,9 @@ import { motion } from "motion/react";
 import { spacings } from "../../constants";
 import { PopoverAlignment } from "./popover.types";
 
-export const StyledPopover = styled(motion.div)`
+export const StyledPopover = styled(motion.div)<{
+  $popoverContainerStyle?: React.CSSProperties;
+}>`
   z-index: 99999999;
   position: fixed;
   width: max-content;
@@ -12,6 +14,7 @@ export const StyledPopover = styled(motion.div)`
   border-radius: ${({ theme }) => theme.borderRadius};
   box-shadow: ${({ theme }) => theme.shadow};
   border: ${({ theme }) => theme.border};
+  ${({ $popoverContainerStyle }) => ({ ...$popoverContainerStyle })}
 `;
 
 export const getPositionStyle = (

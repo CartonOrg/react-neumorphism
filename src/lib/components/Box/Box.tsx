@@ -11,7 +11,7 @@ type BoxProps = {
 } & Partial<React.HTMLAttributes<HTMLDivElement>>;
 
 const Box = forwardRef<HTMLDivElement, BoxProps>(
-  ({ inset = true, size = "sm", children, boxStyle, ...rest }, ref) => {
+  ({ inset = false, size = "sm", children, boxStyle, ...rest }, ref) => {
     return (
       <StyledBox
         ref={ref}

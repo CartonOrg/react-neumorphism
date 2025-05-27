@@ -24,8 +24,8 @@ export const StyledBox = styled.div<{
   $size: Sizes;
   $boxStyle?: React.CSSProperties;
 }>`
-  width: 100%;
-  boxshadow: ${({ theme, $inset }) =>
+  width: fit-content;
+  box-shadow: ${({ theme, $inset }) =>
     $inset === true ? theme.shadowInset : theme.shadow};
   border: ${({ theme }) => theme.border};
   border-radius: ${({ theme }) => theme.borderRadius};

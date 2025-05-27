@@ -4,6 +4,13 @@ import {
   Global,
 } from "@emotion/react";
 import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import {
   BorderConfig,
   ColorsConfig,
   DefaultModeTheme,
@@ -12,6 +19,30 @@ import {
   TypographyConfig,
 } from "../types/theme";
 import { buildAugmentedTheme } from "../utils";
+
+// Create the context
+interface ThemeContextType {
+  mode: DefaultModeTheme;
+  theme: ReactNeumorphismAugmentedTheme;
+  setMode: (mode: DefaultModeTheme) => void;
+  updateConfig: (config: {
+    neumorphismConfig?: Partial<NeumorphismConfig>;
+    colorsConfig?: Partial<ColorsConfig>;
+    typographyConfig?: Partial<TypographyConfig>;
+    borderConfig?: Partial<BorderConfig>;
+  }) => void;
+}
+
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+
+export const useTheme = (): ThemeContextType => {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+
+  return context;
+};
 
 const resetStyles = css({
   "*": {
@@ -26,9 +57,11 @@ const globalOverridesStyles = (
 ) =>
   css({
     ".react-neumorphism-theme": {
-      fontFamily: buildedAugmentedTheme.fontFamily,
+      width: "100%",
+      minHeight: "100%",
       background: buildedAugmentedTheme.background,
       color: buildedAugmentedTheme.fontColor,
+      fontFamily: buildedAugmentedTheme.fontFamily,
       "svg > *": {
         stroke: buildedAugmentedTheme.fontColor,
       },
@@ -41,7 +74,7 @@ interface ThemeProviderProps {
   colorsConfig?: Partial<ColorsConfig>;
   typographyConfig?: Partial<TypographyConfig>;
   borderConfig?: Partial<BorderConfig>;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export const ThemeProvider = ({
@@ -51,21 +84,51 @@ export const ThemeProvider = ({
   colorsConfig,
   typographyConfig,
   children,
-}: ThemeProviderProps): React.ReactNode => {
-  const buildedAugmentedTheme = buildAugmentedTheme({
-    mode,
+}: ThemeProviderProps): ReactNode => {
+  const [currentMode, setCurrentMode] = useState<DefaultModeTheme>(mode);
+  const [currentConfig, setCurrentConfig] = useState({
     neumorphismConfig,
     colorsConfig,
     typographyConfig,
     borderConfig,
   });
 
+  useEffect(() => {
+    setCurrentMode(mode);
+  }, [mode]);
+
+  const buildedAugmentedTheme = buildAugmentedTheme({
+    mode: currentMode,
+    ...currentConfig,
+  });
+
+  const updateConfig = (config: {
+    neumorphismConfig?: Partial<NeumorphismConfig>;
+    colorsConfig?: Partial<ColorsConfig>;
+    typographyConfig?: Partial<TypographyConfig>;
+    borderConfig?: Partial<BorderConfig>;
+  }) => {
+    setCurrentConfig((prev) => ({
+      ...prev,
+      ...config,
+    }));
+  };
+
+  const contextValue = {
+    mode: currentMode,
+    theme: buildedAugmentedTheme,
+    setMode: setCurrentMode,
+    updateConfig,
+  };
+
   return (
-    <EmotionThemeProvider theme={buildedAugmentedTheme}>
-      <Global
-        styles={[resetStyles, globalOverridesStyles(buildedAugmentedTheme)]}
-      />
-      <div className="react-neumorphism-theme">{children}</div>
-    </EmotionThemeProvider>
+    <ThemeContext.Provider value={contextValue}>
+      <EmotionThemeProvider theme={buildedAugmentedTheme}>
+        <Global
+          styles={[resetStyles, globalOverridesStyles(buildedAugmentedTheme)]}
+        />
+        <div className="react-neumorphism-theme">{children}</div>
+      </EmotionThemeProvider>
+    </ThemeContext.Provider>
   );
 };

@@ -2,6 +2,16 @@ import { CSSProperties } from "react";
 import { css, SerializedStyles, Theme } from "@emotion/react";
 import { Sizes } from "../../constants";
 
+export type TypographyVariant =
+  | "h1"
+  | "h2"
+  | "h3"
+  | "h4"
+  | "h5"
+  | "h6"
+  | "p"
+  | "span";
+
 export const TYPOGRAPHY_STYLES: Record<Sizes, CSSProperties> = {
   xs: {
     fontSize: "12px",
@@ -21,6 +31,7 @@ export const TYPOGRAPHY_STYLES: Record<Sizes, CSSProperties> = {
 };
 
 export const defaultStyle = ({
+  variant,
   size,
   theme,
   bold,
@@ -28,6 +39,7 @@ export const defaultStyle = ({
   underline,
   ellipsis,
 }: {
+  variant: TypographyVariant;
   theme: Theme;
   size: Sizes;
   bold: boolean;
@@ -36,7 +48,11 @@ export const defaultStyle = ({
   ellipsis?: boolean;
 }): SerializedStyles =>
   css({
-    ...TYPOGRAPHY_STYLES[size],
+    ...(variant === "span" || variant === "p"
+      ? {
+          ...TYPOGRAPHY_STYLES[size],
+        }
+      : {}),
     color: theme.fontColor,
     fontWeight: bold ? "bold" : "normal",
     fontStyle: italic ? "italic" : "normal",

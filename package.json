@@ -1,7 +1,7 @@
 {
   "name": "@carton-org/react-neumorphism",
   "private": false,
-  "version": "1.0.7",
+  "version": "1.1.13",
   "description": "A React component library implementing the neumorphism design style",
   "author": "Carton",
   "license": "MIT",
@@ -36,10 +36,11 @@
   "sideEffects": false,
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b tsconfig.lib.json && vite build",
+    "build_clean": "rm -rf dist && tsc -b tsconfig.lib.json && vite build && rm -rf dist/_virtual dist/node_modules dist/_virtual.js && find dist -type d -name '_virtual' -exec rm -rf {} + && find dist -type d -name '_node_modules' -exec rm -rf {} +",
+    "build": "rm -rf dist && tsc -b tsconfig.lib.json && vite build",
     "lint": "ESLINT_USE_FLAT_CONFIG=true eslint . --fix",
     "preview": "vite preview",
-    "publish": "pnpm run build && pnpm publish --no-git-checks"
+    "publish": "rm -rf dist && pnpm run build && pnpm publish --no-git-checks"
   },
   "dependencies": {},
   "peerDependencies": {
@@ -69,10 +70,7 @@
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.26.1",
     "vite": "^6.3.1",
-    "vite-plugin-dts": "^4.5.4",
-    "@emotion/css": "^11.13.5",
-    "@emotion/react": "^11.14.0",
-    "motion": "^12.10.5"
+    "vite-plugin-dts": "^4.5.4"
   },
   "engines": {
     "node": ">=16"
