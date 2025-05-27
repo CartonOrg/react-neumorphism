@@ -17,6 +17,9 @@ type TableProps<T> = {
   templates?: Partial<
     Record<keyof T, (row: T, rowIdx: number, colIdx: number) => React.ReactNode>
   >;
+  tableStyle?: React.CSSProperties;
+  tableColumnLabelStyle?: React.CSSProperties;
+  tableRowValueStyle?: React.CSSProperties;
 } & Partial<React.HTMLAttributes<HTMLTableElement>>;
 
 const Table = <T,>({
@@ -25,15 +28,18 @@ const Table = <T,>({
   data,
   templates,
   inset = true,
+  tableStyle,
+  tableColumnLabelStyle,
+  tableRowValueStyle,
   ...rest
 }: TableProps<T>): React.ReactNode => {
   return (
-    <StyledTable $inset={inset} {...rest}>
+    <StyledTable $inset={inset} $tableStyle={tableStyle} {...rest}>
       <StyledTBody $inset={inset}>
         <StyledTr>
           {columns.map((col) => (
             <StyledHeaderTd key={String(col)} $size={size}>
-              <Typography size={size} bold>
+              <Typography size={size} bold labelStyle={tableColumnLabelStyle}>
                 {String(col)}
               </Typography>
             </StyledHeaderTd>
@@ -47,7 +53,9 @@ const Table = <T,>({
                 {templates && templates[col] ? (
                   templates[col]!(row, rowIdx, colIdx)
                 ) : (
-                  <Typography size={size}>{String(row[col])}</Typography>
+                  <Typography size={size} labelStyle={tableRowValueStyle}>
+                    {String(row[col])}
+                  </Typography>
                 )}
               </StyledTd>
             ))}

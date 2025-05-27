@@ -16,6 +16,7 @@ interface ProgressBarProps {
   showLabel?: boolean;
   size?: Sizes;
   insetLabel?: boolean;
+  progressBarColor?: React.CSSProperties["color"];
 }
 
 const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
@@ -26,6 +27,7 @@ const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
       label,
       showLabel = true,
       insetLabel = false,
+      progressBarColor,
       ...rest
     },
     ref,
@@ -57,6 +59,7 @@ const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
             initial={{ width: progress }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.3 }}
+            $progressBarColor={progressBarColor}
           />
         </StyledProgressBar>
       </StyledContainer>

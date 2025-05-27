@@ -19,14 +19,19 @@ export const BOX_STYLES: Record<Sizes, React.CSSProperties> = {
   },
 };
 
-export const StyledBox = styled.div<{ $inset?: boolean; $size: Sizes }>`
+export const StyledBox = styled.div<{
+  $inset?: boolean;
+  $size: Sizes;
+  $boxStyle?: React.CSSProperties;
+}>`
   width: 100%;
   boxshadow: ${({ theme, $inset }) =>
     $inset === true ? theme.shadowInset : theme.shadow};
   border: ${({ theme }) => theme.border};
   border-radius: ${({ theme }) => theme.borderRadius};
   background: ${({ theme }) => theme.background};
-  ${({ $size }) => ({
+  ${({ $size, $boxStyle }) => ({
     ...BOX_STYLES[$size],
+    ...$boxStyle,
   })}
 `;

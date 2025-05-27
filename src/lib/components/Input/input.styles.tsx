@@ -107,7 +107,7 @@ export const INPUT_STYLES: Record<
 export const OUTLINE_INPUT_CONTAINER_STYLE: Record<
   Sizes,
   {
-    inputContainer: CSSProperties;
+    inputContainer: React.CSSProperties;
   }
 > = {
   xs: {
@@ -151,6 +151,7 @@ export const StyledInputContainer = styled.div<{
   $hasIconLeft?: boolean;
   $hasIconRight?: boolean;
   $disabled?: boolean;
+  $inputContainerStyle?: React.CSSProperties;
 }>`
   display: flex;
   align-items: center;
@@ -175,9 +176,13 @@ export const StyledInputContainer = styled.div<{
           paddingLeft: 0,
         }
       : {}}
+  ${({ $inputContainerStyle }) => ({ ...$inputContainerStyle })}
 `;
 
-export const StyledInput = styled.input<{ $inputSize: Sizes }>`
+export const StyledInput = styled.input<{
+  $inputSize: Sizes;
+  $inputStyle?: React.CSSProperties;
+}>`
   ${({ $inputSize }) => ({ ...INPUT_STYLES[$inputSize].input })}
   outline: unset;
   border: unset;
@@ -191,4 +196,5 @@ export const StyledInput = styled.input<{ $inputSize: Sizes }>`
     opacity: 0.5;
     cursor: not-allowed;
   }
+  ${({ $inputStyle }) => ({ ...$inputStyle })}
 `;

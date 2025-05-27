@@ -17,6 +17,9 @@ type InputProps = {
   iconRight?: React.ReactNode;
   iconStyle?: IconStyle;
   disabled?: boolean;
+  inputStyle?: React.CSSProperties;
+  inputContainerStyle?: React.CSSProperties;
+  inputLabelStyle?: React.CSSProperties;
 } & Partial<React.InputHTMLAttributes<HTMLInputElement>>;
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -28,6 +31,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       iconRight,
       iconStyle = "outline",
       disabled,
+      inputStyle,
+      inputContainerStyle,
+      inputLabelStyle,
       ...rest
     },
     ref,
@@ -38,7 +44,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <StyledInputLabel $inputSize={inputSize}>
         {label !== undefined && (
-          <Typography size={inputSize}>{label}</Typography>
+          <Typography size={inputSize} labelStyle={inputLabelStyle}>
+            {label}
+          </Typography>
         )}
         <StyledInputContainer
           $inputSize={inputSize}
@@ -46,12 +54,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           $hasIconLeft={iconLeft !== undefined}
           $hasIconRight={iconRight !== undefined}
           $disabled={disabled}
+          $inputContainerStyle={inputContainerStyle}
         >
           {iconLeftDisplay}
           <StyledInput
             ref={ref}
             $inputSize={inputSize}
             disabled={disabled}
+            $inputStyle={inputStyle}
             {...rest}
           />
           {iconRightDisplay}

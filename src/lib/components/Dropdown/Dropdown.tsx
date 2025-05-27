@@ -1,4 +1,4 @@
-import { css, Theme, withTheme } from "@emotion/react";
+import { css, withTheme } from "@emotion/react";
 import { forwardRef, useRef, useState } from "react";
 import {
   StyledContainer,
@@ -24,6 +24,11 @@ interface DropdownProps {
   options: Option[];
   onChange: (value: string) => void;
   size?: Sizes;
+  dropdownHeaderLabelStyle?: React.CSSProperties;
+  dropdownHeaderStyle?: React.CSSProperties;
+  dropdownContentStyle?: React.CSSProperties;
+  dropdownOptionLabelStyle?: React.CSSProperties;
+  dropdownOptionItemStyle?: React.CSSProperties;
 }
 
 const rotateOpenIconStyle = (open: boolean) =>
@@ -33,7 +38,21 @@ const rotateOpenIconStyle = (open: boolean) =>
   });
 
 const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
-  ({ value, placeholder, options, onChange, size = "sm" }, ref) => {
+  (
+    {
+      value,
+      placeholder,
+      options,
+      onChange,
+      size = "sm",
+      dropdownHeaderLabelStyle,
+      dropdownHeaderStyle,
+      dropdownContentStyle,
+      dropdownOptionLabelStyle,
+      dropdownOptionItemStyle,
+    },
+    ref,
+  ) => {
     const dropdownContainerRef = useForwardRef<HTMLDivElement>(ref);
     const dropdownHeaderRef = useRef<HTMLDivElement>(null);
     const [isOpen, setIsOpen] = useState(false);
@@ -68,21 +87,28 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           ref={dropdownHeaderRef}
           $isPlaceholder={displayPlaceholder}
           $size={size}
+          $dropdownHeaderStyle={dropdownHeaderStyle}
         >
-          <Typography size={size}>
+          <Typography size={size} labelStyle={dropdownHeaderLabelStyle}>
             {currentOption?.label ?? placeholder}
           </Typography>
           <CarretDownIcon customStyles={rotateOpenIconStyle(isOpen)} />
         </StyledHeader>
         <StyledDropdownContent onClick={toggleDropdown} $isOpen={isOpen}>
-          <StyledContentWrapper $size={size}>
+          <StyledContentWrapper
+            $size={size}
+            $dropdownContentStyle={dropdownContentStyle}
+          >
             {options.map((option) => (
               <StyledOptionItem
                 key={option.value}
                 $size={size}
                 onClick={(event) => handleOptionSelection(event, option)}
+                $dropdownOptionLabelStyle={dropdownOptionItemStyle}
               >
-                <Typography size={size}>{option.label}</Typography>
+                <Typography size={size} labelStyle={dropdownOptionLabelStyle}>
+                  {option.label}
+                </Typography>
               </StyledOptionItem>
             ))}
           </StyledContentWrapper>

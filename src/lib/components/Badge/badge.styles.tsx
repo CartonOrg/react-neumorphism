@@ -29,14 +29,20 @@ export const BADGE_STYLES: Record<Sizes, React.CSSProperties> = {
   },
 };
 
-export const StyledBadge = styled.div<{ $inset: boolean; $size: Sizes }>`
-  ${({ theme, $inset, $size }) => ({
+export const StyledBadge = styled.div<{
+  $inset: boolean;
+  $size: Sizes;
+  $badgeStyle?: React.CSSProperties;
+}>`
+  ${({ theme, $inset, $size, $badgeStyle }) => ({
     ...BADGE_STYLES[$size],
+    ...$badgeStyle,
     background: theme.background,
     borderRadius: theme.borderRadius,
     border: theme.border,
     height: "fit-content",
     width: "fit-content",
     boxShadow: $inset ? theme.shadowInset : theme.shadow,
+    ...$badgeStyle,
   })}
 `;

@@ -74,6 +74,7 @@ export const StyledContainer = styled.div`
 export const StyledHeader = styled.div<{
   $isPlaceholder: boolean;
   $size: Sizes;
+  $dropdownHeaderStyle?: React.CSSProperties;
 }>`
   display: flex;
   align-items: center;
@@ -85,7 +86,10 @@ export const StyledHeader = styled.div<{
   width: 100%;
   cursor: pointer;
   opacity: ${({ $isPlaceholder }) => ($isPlaceholder ? 0.5 : 1)};
-  ${({ $size }) => ({ ...DROPDOWN_STYLES[$size].headerContainer })}
+  ${({ $size, $dropdownHeaderStyle }) => ({
+    ...DROPDOWN_STYLES[$size].headerContainer,
+    ...$dropdownHeaderStyle,
+  })}
 `;
 
 export const StyledDropdownContent = styled.div<{
@@ -106,11 +110,21 @@ export const StyledDropdownContent = styled.div<{
 
 export const StyledContentWrapper = styled.div<{
   $size: Sizes;
+  $dropdownContentStyle?: React.CSSProperties;
 }>`
   box-shadow: ${({ theme }) => theme.shadowInset};
-  ${({ $size }) => ({ ...DROPDOWN_STYLES[$size].contentContainer })}
+  ${({ $size, $dropdownContentStyle }) => ({
+    ...DROPDOWN_STYLES[$size].contentContainer,
+    ...$dropdownContentStyle,
+  })}
 `;
 
-export const StyledOptionItem = styled.div<{ $size: Sizes }>`
-  ${({ $size }) => ({ ...DROPDOWN_STYLES[$size].item })}
+export const StyledOptionItem = styled.div<{
+  $size: Sizes;
+  $dropdownOptionLabelStyle?: React.CSSProperties;
+}>`
+  ${({ $size, $dropdownOptionLabelStyle }) => ({
+    ...DROPDOWN_STYLES[$size].item,
+    ...$dropdownOptionLabelStyle,
+  })}
 `;

@@ -76,6 +76,7 @@ export const StyledButton = styled.button<{
   $hasIcon: boolean;
   $hasOnlyIcon: boolean;
   $isLoading: boolean;
+  $buttonStyle?: CSSProperties;
 }>`
   ${({ theme, $size }) => ({
     ...BUTTON_STYLES[$size].container,
@@ -112,4 +113,6 @@ export const StyledButton = styled.button<{
     width: ${({ $size }) => BUTTON_STYLES[$size].custom.iconSize};
     height: ${({ $size }) => BUTTON_STYLES[$size].custom.iconSize};
   }
+
+  ${({ $buttonStyle }) => ({ ...$buttonStyle })}
 `;

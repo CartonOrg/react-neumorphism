@@ -8,13 +8,33 @@ type BadgeProps = {
   inset?: boolean;
   size?: Sizes;
   children: React.ReactNode;
+  badgeStyle?: React.CSSProperties;
+  badgeLabelStyle?: React.CSSProperties;
 } & Partial<React.HTMLAttributes<HTMLDivElement>>;
 
 const Badge = forwardRef<HTMLDivElement, BadgeProps>(
-  ({ children, inset = false, size = "sm", ...rest }, ref) => {
+  (
+    {
+      children,
+      inset = false,
+      size = "sm",
+      badgeStyle,
+      badgeLabelStyle,
+      ...rest
+    },
+    ref,
+  ) => {
     return (
-      <StyledBadge ref={ref} $inset={inset} $size={size} {...rest}>
-        <Typography size={size}>{children}</Typography>
+      <StyledBadge
+        ref={ref}
+        $inset={inset}
+        $size={size}
+        $badgeStyle={badgeStyle}
+        {...rest}
+      >
+        <Typography size={size} labelStyle={badgeLabelStyle}>
+          {children}
+        </Typography>
       </StyledBadge>
     );
   },

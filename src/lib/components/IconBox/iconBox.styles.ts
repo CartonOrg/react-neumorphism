@@ -39,7 +39,7 @@ const ICON_BOX_STYLES: Record<
 
 export const StyledBlankIconBox = styled.div<{
   $size: Sizes;
-  $customStyles?: React.CSSProperties;
+  $iconBoxStyle?: React.CSSProperties;
 }>`
   display: flex;
   align-items: center;
@@ -53,7 +53,7 @@ export const StyledBlankIconBox = styled.div<{
     width: ${({ $size }) => ICON_BOX_STYLES[$size].iconSize};
     height: ${({ $size }) => ICON_BOX_STYLES[$size].iconSize};
   }
-  ${({ $customStyles }) => ({ ...$customStyles })}
+  ${({ $iconBoxStyle }) => ({ ...$iconBoxStyle })}
 `;
 
 export const StyledDefaultIconBox = styled.div<{
@@ -63,7 +63,7 @@ export const StyledDefaultIconBox = styled.div<{
   $inset?: boolean;
   $rounded?: boolean;
   $border?: boolean;
-  $customStyles?: React.CSSProperties;
+  $iconBoxStyle?: React.CSSProperties;
 }>`
   display: flex;
   align-items: center;
@@ -90,5 +90,5 @@ export const StyledDefaultIconBox = styled.div<{
     width: ${({ $size }) => ICON_BOX_STYLES[$size].iconSize};
     height: ${({ $size }) => ICON_BOX_STYLES[$size].iconSize};
   }
-  ${({ $customStyles }) => ({ ...$customStyles })}
+  ${({ $iconBoxStyle }) => ({ ...$iconBoxStyle })}
 `;

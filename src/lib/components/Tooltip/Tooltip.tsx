@@ -17,6 +17,8 @@ export interface TooltipProps {
   children?: React.ReactNode;
   alignment?: TooltipAlignment;
   size?: Sizes;
+  tooltipStyle?: React.CSSProperties;
+  tooltipLabelStyle?: React.CSSProperties;
 }
 
 const Tooltip: React.FC<TooltipProps> = ({
@@ -24,6 +26,8 @@ const Tooltip: React.FC<TooltipProps> = ({
   children,
   alignment = "bottom-center",
   size = "sm",
+  tooltipStyle,
+  tooltipLabelStyle,
 }) => {
   const [position, setPosition] = useState<SerializedStyles>();
   const [display, setDisplay] = useState(false);
@@ -77,8 +81,11 @@ const Tooltip: React.FC<TooltipProps> = ({
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               css={position}
+              $tooltipStyle={tooltipStyle}
             >
-              <Typography size={size}>{text}</Typography>
+              <Typography size={size} labelStyle={tooltipLabelStyle}>
+                {text}
+              </Typography>
             </StyledTooltip>
           </AnimatePresence>,
           document.body,

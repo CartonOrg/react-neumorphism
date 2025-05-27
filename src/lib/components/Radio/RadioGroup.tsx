@@ -16,6 +16,9 @@ interface RadioGroupProps {
   value: string;
   onChange?: (value: string) => void;
   disabled?: boolean;
+  radioGroupContainerStyle?: React.CSSProperties;
+  radioContainerStyle?: React.CSSProperties;
+  radioLabelStyle?: React.CSSProperties;
 }
 
 const RadioGroup: React.FC<RadioGroupProps> = ({
@@ -26,6 +29,9 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
   onChange,
   disabled,
   size = "sm",
+  radioGroupContainerStyle,
+  radioContainerStyle,
+  radioLabelStyle,
   ...rest
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +39,12 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
   };
 
   return (
-    <StyledRadioGroupContainer id={id} $size={size} {...rest}>
+    <StyledRadioGroupContainer
+      id={id}
+      $size={size}
+      $radioGroupContainerStyle={radioGroupContainerStyle}
+      {...rest}
+    >
       {items.map((item) => (
         <Radio
           inputSize={size}
@@ -45,6 +56,8 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
           onChange={handleChange}
           label={item.label}
           disabled={item.disabled ?? disabled}
+          radioContainerStyle={radioContainerStyle}
+          radioLabelStyle={radioLabelStyle}
         />
       ))}
     </StyledRadioGroupContainer>

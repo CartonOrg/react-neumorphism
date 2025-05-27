@@ -90,11 +90,14 @@ export const TOGGLE_SIZES: Record<
   },
 };
 
-export const StyledToggleContainer = styled.div`
+export const StyledToggleContainer = styled.div<{
+  $toggleStyle?: React.CSSProperties;
+}>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: ${spacings.lg};
+  ${({ $toggleStyle }) => ({ ...$toggleStyle })}
 `;
 
 export const StyledToggleWrapper = styled.div<{

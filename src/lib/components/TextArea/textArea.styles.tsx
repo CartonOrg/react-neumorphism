@@ -1,18 +1,24 @@
 import styled from "@emotion/styled";
-import { Theme } from "@emotion/react";
 import { Sizes, spacings } from "../../constants";
 
 type StyledTextAreaProps = {
   $textAreaSize: Sizes;
   $enableDynamicHeight: boolean;
+  $textAreaStyle?: React.CSSProperties;
 };
 
-export const StyledLabel = styled.label<{ $textAreaSize: Sizes }>`
+export const StyledLabel = styled.label<{
+  $textAreaSize: Sizes;
+  $textAreaContainerStyle?: React.CSSProperties;
+}>`
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: ${({ $textAreaSize }) =>
     $textAreaSize === "xs" ? spacings.xs : spacings.sm};
+  ${({ $textAreaContainerStyle }) => ({
+    ...$textAreaContainerStyle,
+  })}
 `;
 
 export const StyledTextArea = styled.textarea<StyledTextAreaProps>`
@@ -58,4 +64,5 @@ export const StyledTextArea = styled.textarea<StyledTextAreaProps>`
     opacity: 0.5;
     cursor: not-allowed;
   }
+  ${({ $textAreaStyle }) => ({ ...$textAreaStyle })}
 `;

@@ -25,6 +25,9 @@ export interface AccordionItem {
 interface AccordionItemProps extends AccordionItem {
   onOpen?: () => void;
   size?: Sizes;
+  accordionItemTitleStyle?: React.CSSProperties;
+  accordionItemContentStyle?: React.CSSProperties;
+  accordionItemContainerStyle?: React.CSSProperties;
 }
 
 const AccordionItem: React.FC<AccordionItemProps> = ({
@@ -34,7 +37,10 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
   initiallyOpen,
   size,
   onOpen,
+  accordionItemTitleStyle,
+  accordionItemContentStyle,
   iconStyle = "default",
+  accordionItemContainerStyle,
 }) => {
   const [isOpen, setIsOpen] = useState(initiallyOpen ?? false);
 
@@ -50,11 +56,15 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
   const iconDisplay = getIconDisplay(icon, iconStyle, size);
 
   return (
-    <StyledAccordionItemContainer>
+    <StyledAccordionItemContainer
+      $accordionItemContainerStyle={accordionItemContainerStyle}
+    >
       <StyledAccordionHeader onClick={handleOpening}>
         <StyledAccordionTitle>
           {iconDisplay}
-          <Typography size={size}>{title}</Typography>
+          <Typography size={size} labelStyle={accordionItemTitleStyle}>
+            {title}
+          </Typography>
         </StyledAccordionTitle>
 
         <IconBox
@@ -77,7 +87,11 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
             height: { duration: 0.1, ease: "linear" },
           }}
         >
-          <StyledAccordionContentInner>{content}</StyledAccordionContentInner>
+          <StyledAccordionContentInner
+            $accordionItemContentStyle={accordionItemContentStyle}
+          >
+            {content}
+          </StyledAccordionContentInner>
         </StyledAccordionContent>
       </AnimatePresence>
     </StyledAccordionItemContainer>

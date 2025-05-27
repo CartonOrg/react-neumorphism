@@ -18,8 +18,14 @@ export const RADIO_GROUP_STYLE: Record<Sizes, React.CSSProperties> = {
   },
 };
 
-export const StyledRadioGroupContainer = styled.div<{ $size: Sizes }>`
+export const StyledRadioGroupContainer = styled.div<{
+  $size: Sizes;
+  $radioGroupContainerStyle?: React.CSSProperties;
+}>`
   display: flex;
   flex-direction: column;
-  ${({ $size }) => ({ ...RADIO_GROUP_STYLE[$size] })}
+  ${({ $size, $radioGroupContainerStyle }) => ({
+    ...RADIO_GROUP_STYLE[$size],
+    ...$radioGroupContainerStyle,
+  })}
 `;

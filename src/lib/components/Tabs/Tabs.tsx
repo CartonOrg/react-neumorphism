@@ -24,6 +24,7 @@ interface TabsProps {
   }[];
   activeTabIndex: number;
   onChangeIndexTab: (tab: number) => void;
+  tabLabelStyle?: React.CSSProperties;
 }
 
 const Tabs = forwardRef<HTMLDivElement, TabsProps>(
@@ -35,6 +36,7 @@ const Tabs = forwardRef<HTMLDivElement, TabsProps>(
       size = "sm",
       activeTabIndex,
       onChangeIndexTab,
+      tabLabelStyle,
       ...rest
     },
     ref,
@@ -57,7 +59,7 @@ const Tabs = forwardRef<HTMLDivElement, TabsProps>(
               $insetTab={insetTab}
             >
               <IconBox blank icon={item.icon} size={size} />
-              <Typography size={size} bold>
+              <Typography size={size} bold labelStyle={tabLabelStyle}>
                 {item.label}
               </Typography>
             </StyledTab>

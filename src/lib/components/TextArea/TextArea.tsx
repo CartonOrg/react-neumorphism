@@ -10,11 +10,23 @@ type TextAreaProps = {
   enableDynamicHeight?: boolean;
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  textAreaStyle?: React.CSSProperties;
+  textAreaContainerStyle?: React.CSSProperties;
+  textAreaLabelStyle?: React.CSSProperties;
 } & Partial<React.TextareaHTMLAttributes<HTMLTextAreaElement>>;
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   (
-    { label, textAreaSize = "sm", enableDynamicHeight = true, value, ...rest },
+    {
+      label,
+      textAreaSize = "sm",
+      enableDynamicHeight = true,
+      value,
+      textAreaStyle,
+      textAreaContainerStyle,
+      textAreaLabelStyle,
+      ...rest
+    },
     ref,
   ) => {
     const textAreaRef = useForwardRef<HTMLTextAreaElement>(ref);
@@ -35,15 +47,21 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     }, [value, adjustHeight]);
 
     return (
-      <StyledLabel $textAreaSize={textAreaSize}>
+      <StyledLabel
+        $textAreaSize={textAreaSize}
+        $textAreaContainerStyle={textAreaContainerStyle}
+      >
         {label !== undefined && (
-          <Typography size={textAreaSize}>{label}</Typography>
+          <Typography size={textAreaSize} labelStyle={textAreaLabelStyle}>
+            {label}
+          </Typography>
         )}
         <StyledTextArea
-          {...rest}
           ref={textAreaRef}
           $textAreaSize={textAreaSize}
           $enableDynamicHeight={enableDynamicHeight}
+          $textAreaStyle={textAreaStyle}
+          {...rest}
         />
       </StyledLabel>
     );

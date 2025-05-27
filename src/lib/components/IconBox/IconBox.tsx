@@ -11,7 +11,7 @@ interface IconBoxProps {
   height?: string;
   icon: React.ReactNode;
   blank?: boolean;
-  customStyles?: React.CSSProperties;
+  iconBoxStyle?: React.CSSProperties;
 }
 const IconBox = forwardRef<HTMLDivElement, IconBoxProps>(
   (
@@ -24,7 +24,7 @@ const IconBox = forwardRef<HTMLDivElement, IconBoxProps>(
       width,
       height,
       icon,
-      customStyles,
+      iconBoxStyle,
       ...rest
     },
     ref,
@@ -34,7 +34,7 @@ const IconBox = forwardRef<HTMLDivElement, IconBoxProps>(
         <StyledBlankIconBox
           ref={ref}
           $size={size}
-          $customStyles={customStyles}
+          $iconBoxStyle={iconBoxStyle}
           {...rest}
         >
           {icon}
@@ -51,7 +51,7 @@ const IconBox = forwardRef<HTMLDivElement, IconBoxProps>(
         $inset={inset}
         $rounded={rounded}
         $border={border}
-        $customStyles={customStyles}
+        $iconBoxStyle={iconBoxStyle}
         {...rest}
       >
         {icon}

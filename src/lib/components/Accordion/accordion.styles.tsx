@@ -1,6 +1,9 @@
 import styled from "@emotion/styled";
 
-export const StyledAccordion = styled.div<{ $border?: boolean }>`
+export const StyledAccordion = styled.div<{
+  $border?: boolean;
+  $accordionStyle?: React.CSSProperties;
+}>`
   display: flex;
   flex-direction: column;
   background: ${({ theme }) => theme.background};
@@ -10,4 +13,5 @@ export const StyledAccordion = styled.div<{ $border?: boolean }>`
   border-radius: ${({ theme }) => theme.borderRadius};
   width: 100%;
   overflow: hidden;
+  ${({ $accordionStyle }) => ({ ...$accordionStyle })}
 `;

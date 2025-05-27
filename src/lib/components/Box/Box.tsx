@@ -7,12 +7,19 @@ type BoxProps = {
   inset?: boolean;
   size?: Sizes;
   children?: React.ReactNode;
+  boxStyle?: React.CSSProperties;
 } & Partial<React.HTMLAttributes<HTMLDivElement>>;
 
 const Box = forwardRef<HTMLDivElement, BoxProps>(
-  ({ inset = true, size = "sm", children, ...rest }, ref) => {
+  ({ inset = true, size = "sm", children, boxStyle, ...rest }, ref) => {
     return (
-      <StyledBox ref={ref} $inset={inset} $size={size} {...rest}>
+      <StyledBox
+        ref={ref}
+        $inset={inset}
+        $size={size}
+        $boxStyle={boxStyle}
+        {...rest}
+      >
         {children}
       </StyledBox>
     );

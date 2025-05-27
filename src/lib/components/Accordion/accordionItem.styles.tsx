@@ -3,7 +3,9 @@ import { motion } from "motion/react";
 import { spacings } from "../../constants";
 import { PlusIcon } from "../../icons";
 
-export const StyledAccordionItemContainer = styled.div`
+export const StyledAccordionItemContainer = styled.div<{
+  $accordionItemContainerStyle?: React.CSSProperties;
+}>`
   position: relative;
   width: 100%;
   padding: ${spacings.xl};
@@ -16,6 +18,9 @@ export const StyledAccordionItemContainer = styled.div`
     width: 100%;
     border-bottom: ${({ theme }) => theme.border};
   }
+  ${({ $accordionItemContainerStyle }) => ({
+    ...$accordionItemContainerStyle,
+  })}
 `;
 
 export const StyledAccordionHeader = styled.div`
@@ -36,8 +41,11 @@ export const StyledAccordionContent = styled(motion.div)`
   overflow: hidden;
 `;
 
-export const StyledAccordionContentInner = styled.div`
+export const StyledAccordionContentInner = styled.div<{
+  $accordionItemContentStyle?: React.CSSProperties;
+}>`
   padding: ${spacings.lg} 0 0;
+  ${({ $accordionItemContentStyle }) => ({ ...$accordionItemContentStyle })}
 `;
 
 export const StyledRotatingIcon = styled(PlusIcon)<{ $isOpen: boolean }>`

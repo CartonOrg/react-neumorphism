@@ -1,4 +1,3 @@
-import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
 import { getSpacing, Sizes } from "../../constants";
 
@@ -111,7 +110,9 @@ export const RADIO_STYLE: Record<
   },
 };
 
-export const StyledRadioContainer = styled.div`
+export const StyledRadioContainer = styled.div<{
+  $radioContainerStyle?: React.CSSProperties;
+}>`
   position: relative;
   display: flex;
   align-items: center;
@@ -129,6 +130,10 @@ export const StyledRadioContainer = styled.div`
     opacity: 0.5;
     cursor: not-allowed;
   }
+
+  ${({ $radioContainerStyle }) => ({
+    ...$radioContainerStyle,
+  })}
 `;
 
 export const StyledRadioInput = styled.input`

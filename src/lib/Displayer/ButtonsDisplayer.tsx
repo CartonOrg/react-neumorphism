@@ -8,11 +8,22 @@ export const ButtonsDisplayer = (): React.ReactNode => {
       <ComponentDisplayer.Title>Buttons</ComponentDisplayer.Title>
       <ComponentDisplayer.Subtitle>Classic</ComponentDisplayer.Subtitle>
       <ComponentDisplayer.Content>
-        <Button size="xs">Click me</Button>
-        <Button size="sm">Click me</Button>
-        <Button size="md">Click me</Button>
-        <Button size="lg">Click me</Button>
-        <Button size="xl">Click me</Button>
+        <Button
+          size="xs"
+          labelStyle={{ color: "red" }}
+          buttonStyle={{ background: "blue" }}
+        >
+          Click me
+        </Button>
+        <Button size="sm" labelStyle={{ color: "red" }}>
+          Click me
+        </Button>
+        <Button size="md" labelStyle={{ color: "red" }}>
+          Click me
+        </Button>
+        <Button size="lg" labelStyle={{ color: "red" }}>
+          Click me
+        </Button>
       </ComponentDisplayer.Content>
       <ComponentDisplayer.Subtitle>With Borders</ComponentDisplayer.Subtitle>
       <ComponentDisplayer.Content>

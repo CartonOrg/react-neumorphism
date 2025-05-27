@@ -12,6 +12,8 @@ type ButtonProps = {
   isLoading?: boolean;
   rounded?: boolean;
   border?: boolean;
+  labelStyle?: React.CSSProperties;
+  buttonStyle?: React.CSSProperties;
   children?: React.ReactNode;
   theme: Theme;
 } & Partial<React.ButtonHTMLAttributes<HTMLButtonElement>>;
@@ -25,6 +27,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       isLoading = false,
       rounded = false,
       border = false,
+      labelStyle,
+      buttonStyle,
       children,
       theme,
       ...rest
@@ -45,11 +49,16 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         $hasIcon={hasIcon}
         $hasOnlyIcon={hasOnlyIcon}
         $isLoading={isLoading}
+        $buttonStyle={buttonStyle}
         disabled={isLoading || rest.disabled}
         {...rest}
       >
         {iconLeft}
-        {hasOnlyIcon ? null : <Typography size={size}>{children}</Typography>}
+        {hasOnlyIcon ? null : (
+          <Typography size={size} labelStyle={labelStyle}>
+            {children}
+          </Typography>
+        )}
         {isLoading ? (
           <SpinnerIcon color={theme.fontColor} />
         ) : iconRight !== undefined ? (

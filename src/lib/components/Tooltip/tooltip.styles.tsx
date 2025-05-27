@@ -54,7 +54,9 @@ export const StyledTooltipWrapper = styled.div`
   width: fit-content;
 `;
 
-export const StyledTooltip = styled(motion.div)`
+export const StyledTooltip = styled(motion.div)<{
+  $tooltipStyle?: React.CSSProperties;
+}>`
   position: fixed;
   display: flex;
   align-items: center;
@@ -68,4 +70,5 @@ export const StyledTooltip = styled(motion.div)`
   border-radius: ${({ theme }) => theme.borderRadius};
   box-shadow: ${({ theme }) => theme.shadow};
   border: ${({ theme }) => theme.border};
+  ${({ $tooltipStyle }) => ({ ...$tooltipStyle })}
 `;

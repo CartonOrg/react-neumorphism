@@ -11,15 +11,18 @@ import {
 type CheckboxProps = {
   label: string;
   inputSize?: Sizes;
+  checkboxLabelStyle?: React.CSSProperties;
 } & Partial<React.InputHTMLAttributes<HTMLInputElement>>;
 
 const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ id, label, inputSize = "sm", ...rest }, ref) => {
+  ({ id, label, inputSize = "sm", checkboxLabelStyle, ...rest }, ref) => {
     return (
       <StyledCheckboxContainer>
         <StyledHiddenInput ref={ref} id={id} type="checkbox" {...rest} />
         <StyledCheckboxLabel htmlFor={id} $size={inputSize}>
-          <Typography size={inputSize}>{label}</Typography>
+          <Typography size={inputSize} labelStyle={checkboxLabelStyle}>
+            {label}
+          </Typography>
         </StyledCheckboxLabel>
       </StyledCheckboxContainer>
     );

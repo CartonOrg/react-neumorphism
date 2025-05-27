@@ -11,11 +11,25 @@ export interface AccordionProps {
   border?: boolean;
   enableUniqueOpen?: boolean;
   size?: Sizes;
+  accordionStyle?: React.CSSProperties;
+  accordionItemTitleStyle?: React.CSSProperties;
+  accordionItemContentStyle?: React.CSSProperties;
+  accordionItemContainerStyle?: React.CSSProperties;
 }
 
 const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
   (
-    { items, border = false, enableUniqueOpen = false, size = "sm", ...rest },
+    {
+      items,
+      border = false,
+      enableUniqueOpen = false,
+      size = "sm",
+      accordionStyle,
+      accordionItemTitleStyle,
+      accordionItemContentStyle,
+      accordionItemContainerStyle,
+      ...rest
+    },
     ref,
   ) => {
     const [openItems, setOpenItems] = useState<boolean[]>(
@@ -31,13 +45,21 @@ const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
     };
 
     return (
-      <StyledAccordion ref={ref} $border={border} {...rest}>
+      <StyledAccordion
+        ref={ref}
+        $border={border}
+        $accordionStyle={accordionStyle}
+        {...rest}
+      >
         {items.map((item, index) => (
           <AccordionItem
             key={`${index}`}
             initiallyOpen={openItems[index] ?? item.initiallyOpen}
             onOpen={() => handleOnOpen(index)}
             size={size}
+            accordionItemTitleStyle={accordionItemTitleStyle}
+            accordionItemContentStyle={accordionItemContentStyle}
+            accordionItemContainerStyle={accordionItemContainerStyle}
             {...item}
           />
         ))}

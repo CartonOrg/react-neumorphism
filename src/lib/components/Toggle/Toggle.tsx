@@ -1,5 +1,5 @@
-import { forwardRef, useRef } from "react";
-import { Theme, withTheme } from "@emotion/react";
+import { forwardRef } from "react";
+import { withTheme } from "@emotion/react";
 import { Sizes } from "../../constants";
 import Typography from "../Typography/Typography";
 import {
@@ -22,6 +22,8 @@ interface ToggleProps {
     uncheckedIcon: React.ReactNode;
   };
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  labelStyle?: React.CSSProperties;
+  toggleStyle?: React.CSSProperties;
 }
 
 const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
@@ -36,6 +38,8 @@ const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
       icons,
       onChange,
       disabled = false,
+      labelStyle,
+      toggleStyle,
       ...rest
     },
     ref,
@@ -52,10 +56,12 @@ const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
     };
 
     return (
-      <StyledToggleContainer>
+      <StyledToggleContainer $toggleStyle={toggleStyle}>
         {label !== undefined && (
           <label htmlFor={id}>
-            <Typography size={size}>{label}</Typography>
+            <Typography size={size} labelStyle={labelStyle}>
+              {label}
+            </Typography>
           </label>
         )}
         <StyledToggleWrapper

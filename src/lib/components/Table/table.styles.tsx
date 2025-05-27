@@ -21,6 +21,7 @@ const TABLES_STYLES: Record<Sizes, React.CSSProperties> = {
 
 export const StyledTable = styled.table<{
   $inset?: boolean;
+  $tableStyle?: React.CSSProperties;
 }>`
   position: relative;
   width: fit-content;
@@ -31,6 +32,10 @@ export const StyledTable = styled.table<{
   border-radius: ${({ theme }) => theme.borderRadius};
   box-shadow: ${({ $inset, theme }) =>
     $inset === true ? theme.shadowInset : theme.shadow};
+
+  ${({ $tableStyle }) => ({
+    ...$tableStyle,
+  })}
 `;
 
 export const StyledTBody = styled.tbody<{

@@ -76,11 +76,14 @@ export const StyledProgressBar = styled.div<{ $size: Sizes }>`
   ${({ $size }) => ({ ...PROGRESS_BAR_STYLES[$size].bar })}
 `;
 
-export const StyledProgress = styled(motion.div)`
+export const StyledProgress = styled(motion.div)<{
+  $progressBarColor?: string;
+}>`
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   max-width: 100%;
-  background: ${({ theme }) => theme.activeBackgroundColor};
+  background: ${({ theme, $progressBarColor }) =>
+    $progressBarColor ?? theme.activeBackgroundColor};
 `;
